@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sardarshahar Store Gallery - List Your Business</title>
+    <link rel="icon" type="image/x-icon" href="./assets/img/bg-removed.ico">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1e3a4d 0%, #0f2c3a 100%);
+            color: white;
+            padding: 20px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: flex;
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffb347;
+        }
+
+        .submit-btn {
+            background: #ffb347;
+            color: #1e3a4d;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #ff9f1a;
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            margin: 20px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            color: #1e3a4d;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #555;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        /* Pricing Cards */
+        .pricing-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .pricing-title {
+            text-align: center;
+            font-size: 2rem;
+            color: #1e3a4d;
+            margin-bottom: 40px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .pricing-card.popular {
+            border-color: #ffb347;
+            background: linear-gradient(135deg, #fff 0%, #fff8f0 100%);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: #ffb347;
+            color: #1e3a4d;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e3a4d;
+            margin-bottom: 10px;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffb347;
+            margin: 20px 0;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            font-weight: normal;
+            color: #666;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .plan-features li {
+            padding: 8px 0;
+            color: #555;
+        }
+
+        .plan-features i {
+            color: #28a745;
+            margin-right: 8px;
+        }
+
+        .select-plan-btn {
+            background: #1e3a4d;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .select-plan-btn:hover {
+            background: #ffb347;
+            color: #1e3a4d;
+        }
+
+        /* Search & Filter */
+        .filters {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px;
+            padding-left: 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #ffb347;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            color: #999;
+        }
+
+        .category-filter {
+            padding: 15px 25px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* Store Gallery */
+        .gallery {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .store-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .store-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ffb347;
+            color: #1e3a4d;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .store-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .store-info {
+            padding: 20px;
+        }
+
+        .store-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e3a4d;
+        }
+
+        .store-category {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin: 10px 0;
+        }
+
+        .store-description {
+            color: #666;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .visit-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #1e3a4d;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: 0.3s;
+        }
+
+        .visit-btn:hover {
+            background: #ffb347;
+            color: #1e3a4d;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 550px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h3 {
+            font-size: 1.5rem;
+            color: #1e3a4d;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            border-color: #ffb347;
+            outline: none;
+        }
+
+        .payment-details {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .upi-id {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e3a4d;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: inline-block;
+        }
+
+        .copy-btn {
+            background: #ffb347;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .qr-code {
+            width: 150px;
+            margin: 10px auto;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .modal-buttons button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .submit-store {
+            background: #ffb347;
+            color: #1e3a4d;
+        }
+
+        .cancel-modal {
+            background: #ddd;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1e3a4d;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            z-index: 1100;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast.success {
+            background: #28a745;
+        }
+
+        .toast.error {
+            background: #dc3545;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        footer {
+            background: #1e3a4d;
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+                <h1>🏪 Sardarshahar Store Gallery</h1>
+                <p>सरदारशहर के सभी ऑनलाइन स्टोर एक जगह</p>
+            </div>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="storeCount">0</div>
+                    <div>Active Stores</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">6</div>
+                    <div>Categories</div>
+                </div>
+            </div>
+            <button class="submit-btn" onclick="openRegistration()">
+                <i class="fas fa-plus"></i> Register Your Store
+            </button>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h2>📢 List Your Online Store in Sardarshahar's #1 Directory</h2>
+        <p>Get featured, attract local customers, and grow your business! Starting at just ₹99/month</p>
+    </div>
+
+    <!-- Pricing Plans -->
+    <div class="pricing-section">
+        <h2 class="pricing-title">Choose Your Plan</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card" onclick="selectPlan('Basic', 99)">
+                <div class="plan-name">Basic Listing</div>
+                <div class="plan-price">₹99 <span>/month</span></div>
+                <ul class="plan-features">
+                    <li><i class="fas fa-check"></i> Store in Gallery</li>
+                    <li><i class="fas fa-check"></i> Searchable Listing</li>
+                    <li><i class="fas fa-check"></i> Contact Info</li>
+                    <li><i class="fas fa-times" style="color:#dc3545"></i> Featured Badge</li>
+                    <li><i class="fas fa-times" style="color:#dc3545"></i> Priority Support</li>
+                </ul>
+                <button class="select-plan-btn">Select Plan</button>
+            </div>
+
+            <div class="pricing-card popular" onclick="selectPlan('Premium', 499)">
+                <div class="popular-badge">🔥 Most Popular</div>
+                <div class="plan-name">Premium Listing</div>
+                <div class="plan-price">₹499 <span>/month</span></div>
+                <ul class="plan-features">
+                    <li><i class="fas fa-check"></i> Store in Gallery</li>
+                    <li><i class="fas fa-check"></i> Searchable Listing</li>
+                    <li><i class="fas fa-check"></i> Contact Info</li>
+                    <li><i class="fas fa-check"></i> ⭐ Featured Badge</li>
+                    <li><i class="fas fa-check"></i> Priority Support</li>
+                </ul>
+                <button class="select-plan-btn">Select Plan</button>
+            </div>
+
+            <div class="pricing-card" onclick="selectPlan('Exclusive', 999)">
+                <div class="plan-name">Exclusive Spotlight</div>
+                <div class="plan-price">₹999 <span>/month</span></div>
+                <ul class="plan-features">
+                    <li><i class="fas fa-check"></i> Everything in Premium</li>
+                    <li><i class="fas fa-check"></i> Banner on Homepage</li>
+                    <li><i class="fas fa-check"></i> Top Position</li>
+                    <li><i class="fas fa-check"></i> Social Media Promotion</li>
+                    <li><i class="fas fa-check"></i> WhatsApp Broadcast</li>
+                </ul>
+                <button class="select-plan-btn">Select Plan</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="filters">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search stores...">
+        </div>
+        <select id="categoryFilter" class="category-filter">
+            <option value="all">All Categories</option>
+            <option value="Grocery">🛒 Grocery & Kirana</option>
+            <option value="Fashion">👗 Fashion & Clothing</option>
+            <option value="Electronics">📱 Electronics</option>
+            <option value="Handicraft">🎨 Handicraft</option>
+            <option value="Food">🍕 Food & Restaurant</option>
+            <option value="Services">🔧 Services</option>
+        </select>
+    </div>
+
+    <div class="gallery" id="storeGallery"></div>
+
+    <!-- Registration Modal -->
+    <div id="registrationModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-store"></i> Register Your Online Store</h3>
+            <form id="storeForm">
+                <div class="form-group">
+                    <label>Store Name *</label>
+                    <input type="text" id="storeName" required placeholder="e.g., Sardarshahar Kirana Store">
+                </div>
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select id="storeCategory" required>
+                        <option value="Grocery">Grocery & Kirana</option>
+                        <option value="Fashion">Fashion & Clothing</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Handicraft">Handicraft & Arts</option>
+                        <option value="Food">Food & Restaurant</option>
+                        <option value="Services">Services</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Store Description *</label>
+                    <textarea id="storeDesc" required placeholder="Tell customers what you offer..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Website / Store Link *</label>
+                    <input type="url" id="storeLink" required placeholder="https://yourstore.com">
+                </div>
+                <div class="form-group">
+                    <label>Store Logo URL (Optional)</label>
+                    <input type="url" id="storeImage" placeholder="https://yourlogo.jpg">
+                </div>
+                <div class="form-group">
+                    <label>Owner Name *</label>
+                    <input type="text" id="ownerName" required placeholder="Full name">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number *</label>
+                    <input type="tel" id="phone" required placeholder="WhatsApp number">
+                </div>
+
+                <div class="payment-details">
+                    <strong>💰 Selected Plan: <span id="selectedPlanName">Basic</span> - ₹<span
+                            id="selectedPlanPrice">99</span>/month</strong>
+                    <input type="hidden" id="selectedPlan">
+                    <hr style="margin: 15px 0;">
+                    <p><strong>📱 Pay via UPI:</strong></p>
+                    <div class="upi-id">
+                        <span id="upiId">kprajapat5001@oksbi</span>
+                        <button type="button" class="copy-btn" onclick="copyUPI()">Copy</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Transaction ID / UTR Number *</label>
+                    <input type="text" id="transactionId" required placeholder="Enter the transaction ID after payment">
+                    <small style="color: #666;">Pay to sardarshahar@okhdfcbank and enter the UTR/Transaction ID
+                        here</small>
+                </div>
+
+                <div class="modal-buttons">
+                    <button type="button" class="cancel-modal" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="submit-store">Submit for Verification</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <h3>📢 Promote Your Business in Sardarshahar</h3>
+        <p>Get listed in the #1 online store directory and reach thousands of local customers!</p>
+        <p style="margin-top: 20px;">📞 Contact: +91 90241 48036 | 📧 iammrkamal007@gmail.com</p>
+        <p style="margin-top: 10px; font-size: 0.8rem;">© 2026 Sardarshahar Store Gallery | Supporting Local Businesses
+        </p>
+    </footer>
+
+    <script>
+        // Google Apps Script Web App URL (REPLACE WITH YOUR URL)
+        const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbzK465FM_E0pWhTuuTX_mSbCh7lRjuhjoy-3bTX32ZHjf61h2F9Khi9ptvL8ylYDL-9/exec';
+
+        let selectedPlan = { name: 'Basic', price: 99 };
+
+        // Sample stores data (will be loaded from Google Sheets in production)
+        let stores = [
+            {
+                id: 1,
+                name: "Sardarshahar Kirana Bhandar",
+                category: "Grocery",
+                description: "Fresh groceries, spices, and daily essentials delivered to your doorstep.",
+                link: "https://example.com/kirana",
+                image: "https://images.pexels.com/photos/6207372/pexels-photo-6207372.jpeg",
+                featured: true,
+                verified: true
+            },
+            {
+                id: 2,
+                name: "Rajasthan Handicraft Emporium",
+                category: "Handicraft",
+                description: "Authentic blue pottery, mojari, and traditional rajasthani art pieces.",
+                link: "https://example.com/handicraft",
+                image: "https://images.pexels.com/photos/1763034/pexels-photo-1763034.jpeg",
+                featured: true,
+                verified: true
+            },
+            {
+                id: 3,
+                name: "Annapurna Sweets & Snacks",
+                category: "Food",
+                description: "Delicious rajasthani sweets, namkeen, and samosas for all occasions.",
+                link: "https://example.com/sweets",
+                image: "https://images.pexels.com/photos/6848439/pexels-photo-6848439.jpeg",
+                featured: false,
+                verified: true
+            }
+        ];
+
+        function selectPlan(name, price) {
+            selectedPlan = { name, price };
+            document.getElementById('selectedPlanName').innerText = name;
+            document.getElementById('selectedPlanPrice').innerText = price;
+            document.getElementById('selectedPlan').value = name;
+
+            // Show success message
+            showToast(`${name} plan selected! ₹${price}/month`, 'success');
+        }
+
+        function copyUPI() {
+            const upiId = document.getElementById('upiId').innerText;
+            navigator.clipboard.writeText(upiId);
+            showToast('UPI ID copied!', 'success');
+        }
+
+        function openRegistration() {
+            document.getElementById('registrationModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('registrationModal').style.display = 'none';
+            document.getElementById('storeForm').reset();
+            selectedPlan = { name: 'Basic', price: 99 };
+            document.getElementById('selectedPlanName').innerText = 'Basic';
+            document.getElementById('selectedPlanPrice').innerText = '99';
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Handle form submission
+        document.getElementById('storeForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = document.querySelector('.submit-store');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="spinner"></div> Submitting...';
+
+            const formData = {
+                storeName: document.getElementById('storeName').value,
+                category: document.getElementById('storeCategory').value,
+                description: document.getElementById('storeDesc').value,
+                websiteLink: document.getElementById('storeLink').value,
+                imageUrl: document.getElementById('storeImage').value || '',
+                ownerName: document.getElementById('ownerName').value,
+                phone: document.getElementById('phone').value,
+                selectedPlan: selectedPlan.name,
+                planPrice: selectedPlan.price,
+                transactionId: document.getElementById('transactionId').value,
+                upiId: 'sardarshahar@okhdfcbank',
+                status: 'Pending Verification',
+                timestamp: new Date().toISOString()
+            };
+
+            // Validate transaction ID
+            if (!formData.transactionId) {
+                showToast('Please enter transaction ID', 'error');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Submit for Verification';
+                return;
+            }
+
+            try {
+                // Send to Google Sheets
+                const response = await fetch(GOOGLE_SHEET_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                // Store in localStorage as backup
+                let submissions = JSON.parse(localStorage.getItem('store_submissions') || '[]');
+                submissions.push(formData);
+                localStorage.setItem('store_submissions', JSON.stringify(submissions));
+
+                showToast('Registration submitted! We will verify your payment within 24 hours.', 'success');
+                closeModal();
+
+                // Send WhatsApp notification (optional)
+                sendWhatsAppNotification(formData);
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error submitting form. Please try again.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Submit for Verification';
+            }
+        });
+
+        // Optional: Send WhatsApp notification to admin
+        function sendWhatsAppNotification(data) {
+            const adminNumber = '919876543210'; // Replace with your WhatsApp number
+            const message = `New Store Registration!\n\nStore: ${data.storeName}\nPlan: ${data.selectedPlan}\nTransaction ID: ${data.transactionId}\nPhone: ${data.phone}`;
+            // You can integrate WhatsApp API here
+            console.log('WhatsApp notification would be sent:', message);
+        }
+
+        // Render stores
+        function renderStores() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+
+            let filtered = stores.filter(store => {
+                const matchesSearch = store.name.toLowerCase().includes(searchTerm) ||
+                    store.description.toLowerCase().includes(searchTerm);
+                const matchesCategory = categoryFilter === 'all' || store.category === categoryFilter;
+                return matchesSearch && matchesCategory && store.verified === true;
+            });
+
+            filtered.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+
+            const gallery = document.getElementById('storeGallery');
+
+            if (filtered.length === 0) {
+                gallery.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 60px;">
+                                    <i class="fas fa-store-slash" style="font-size: 4rem; color: #ccc;"></i>
+                                    <h3>No stores found</h3>
+                                    <p>Be the first to register your store!</p>
+                                </div>`;
+                return;
+            }
+
+            gallery.innerHTML = filtered.map(store => `
+            <div class="store-card">
+                ${store.featured ? '<div class="featured-badge"><i class="fas fa-crown"></i> Featured</div>' : ''}
+                <div class="store-image" style="background-image: url('${store.image || 'https://via.placeholder.com/400x200?text=Store+Logo'}')"></div>
+                <div class="store-info">
+                    <div class="store-name">${store.name}</div>
+                    <div class="store-category"><i class="fas fa-tag"></i> ${store.category}</div>
+                    <div class="store-description">${store.description.substring(0, 100)}...</div>
+                    <a href="${store.link}" target="_blank" class="visit-btn"><i class="fas fa-external-link-alt"></i> Visit Store</a>
+                </div>
+            </div>
+        `).join('');
+        }
+
+        document.getElementById('searchInput').addEventListener('input', renderStores);
+        document.getElementById('categoryFilter').addEventListener('change', renderStores);
+
+        function updateStoreCount() {
+            document.getElementById('storeCount').innerText = stores.filter(s => s.verified).length;
+        }
+
+        // Initialize
+        renderStores();
+        updateStoreCount();
+        selectPlan('Basic', 99);
+    </script>
+</body>
+
+</html>
