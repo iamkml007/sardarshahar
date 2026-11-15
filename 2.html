@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sardarshahar - Royal Heritage & City Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --obsidian: #0A0D14;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--obsidian);
+            color: #F8FAFC;
+            overflow-x: hidden;
+        }
+        .font-royal {
+            font-family: 'Cinzel', serif;
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #AA7C11 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-border {
+            border: 1px solid rgba(212, 175, 55, 0.25);
+        }
+        .gold-border:hover {
+            border-color: rgba(212, 175, 55, 0.7);
+        }
+        #canvas-container {
+            width: 100%;
+            height: 560px;
+            position: relative;
+            cursor: grab;
+            overflow: hidden;
+        }
+        #canvas-container:active {
+            cursor: grabbing;
+        }
+        .map-label {
+            position: absolute;
+            transform: translate(-50%, -100%);
+            pointer-events: auto;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            z-index: 10;
+        }
+        .map-label:hover {
+            transform: translate(-50%, -105%) scale(1.06);
+            z-index: 20;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0A0D14; }
+        ::-webkit-scrollbar-thumb { background: #2A3142; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+    </style>
+</head>
+<body class="antialiased selection:bg-amber-500/30 selection:text-amber-200">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-[#0A0D14]/90 backdrop-blur-md border-b border-amber-500/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center shadow-lg shadow-amber-500/20">
+                        <span class="font-royal font-bold text-slate-950 text-xl">S</span>
+                    </div>
+                    <div>
+                        <span class="font-royal text-xl font-bold tracking-wider gold-gradient-text block leading-none">SARDARSHAHAR</span>
+                        <span class="text-[11px] uppercase tracking-[0.25em] text-slate-400">Royal Heritage & City Portal</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                    <a href="#explorer" class="hover:text-amber-400 transition">3D City Map</a>
+                    <a href="#landmarks" class="hover:text-amber-400 transition">Landmarks & Civic</a>
+                    <a href="#heritage" class="hover:text-amber-400 transition">Royal History</a>
+                    <a href="#directory" class="hover:text-amber-400 transition">City Directory</a>
+                </div>
+                <a href="#explorer" class="px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-semibold text-sm hover:from-amber-400 hover:to-amber-500 transition shadow-lg shadow-amber-500/20">
+                    Explore 3D Map
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-16 lg:pt-36 lg:pb-20 overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-900/20 via-[#0A0D14] to-[#0A0D14] -z-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold tracking-widest uppercase mb-6">
+                <span>Churu District • Rajasthan, India</span>
+            </div>
+            <h1 class="font-royal text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6">
+                The Jewel of <br class="hidden sm:block" />
+                <span class="gold-gradient-text">Shekhawati & Bikaner</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-slate-400 text-base sm:text-lg leading-relaxed mb-10">
+                Founded by Maharaja Sardar Singh of Bikaner in 1838. Explore detailed 3D architectural models of the Clock Tower, Ichchhapurna Balaji Temple, civic offices, and painted havelis.
+            </p>
+            
+            <!-- Quick Stats Bar -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <div class="bg-[#111622]/90 gold-border rounded-xl p-4">
+                    <div class="font-royal text-2xl font-bold text-amber-400">1838 AD</div>
+                    <div class="text-xs text-slate-400 uppercase tracking-wider mt-1">Founded Era</div>
+                </div>
+                <div class="bg-[#111622]/90 gold-border rounded-xl p-4">
+                    <div class="font-royal text-2xl font-bold text-amber-400">PIN 331403</div>
+                    <div class="text-xs text-slate-400 uppercase tracking-wider mt-1">Postal Code</div>
+                </div>
+                <div class="bg-[#111622]/90 gold-border rounded-xl p-4">
+                    <div class="font-royal text-2xl font-bold text-amber-400">RJ-10</div>
+                    <div class="text-xs text-slate-400 uppercase tracking-wider mt-1">District RTO</div>
+                </div>
+                <div class="bg-[#111622]/90 gold-border rounded-xl p-4">
+                    <div class="font-royal text-2xl font-bold text-amber-400">8 Icons</div>
+                    <div class="text-xs text-slate-400 uppercase tracking-wider mt-1">3D Landmarks</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Interactive 3D Isometric City Explorer -->
+    <section id="explorer" class="py-16 bg-[#0D111A] border-y border-amber-500/15">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+                <div>
+                    <span class="text-amber-400 text-xs font-bold uppercase tracking-widest">Interactive 3D Architectural Model</span>
+                    <h2 class="font-royal text-3xl sm:text-4xl font-bold text-white mt-1">Sardarshahar 3D Landmark Map</h2>
+                </div>
+                <p class="text-slate-400 text-sm max-w-md">
+                    Drag to orbit, scroll to zoom, or click any building / floating tag to inspect architectural and civic details.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-6 items-stretch">
+                <!-- 3D Viewport -->
+                <div class="lg:col-span-2 bg-[#080B10] rounded-2xl gold-border overflow-hidden relative shadow-2xl">
+                    <div id="canvas-container">
+                        <!-- Floating HTML Labels injected here -->
+                        <div id="labels-layer" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+                    </div>
+                    
+                    <!-- Floating 3D Controls -->
+                    <div class="absolute top-4 left-4 flex flex-wrap gap-2 z-20">
+                        <span class="px-3 py-1 rounded-md bg-slate-900/90 border border-amber-500/30 text-xs text-amber-300 backdrop-blur-sm">
+                            🖱️ Drag to Rotate • Scroll to Zoom
+                        </span>
+                    </div>
+                    <div class="absolute bottom-4 right-4 flex gap-2 z-20">
+                        <button onclick="toggleAutoRotate()" id="rotate-btn" class="px-3 py-1.5 rounded-lg bg-slate-900/90 hover:bg-amber-500 hover:text-slate-950 border border-amber-500/30 text-xs font-medium text-amber-300 transition">
+                            Pause Orbit
+                        </button>
+                        <button onclick="resetCamera()" class="px-3 py-1.5 rounded-lg bg-slate-900/90 hover:bg-amber-500 hover:text-slate-950 border border-amber-500/30 text-xs font-medium text-amber-300 transition">
+                            Reset View
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Selected Landmark Info Panel -->
+                <div class="bg-[#111622] rounded-2xl gold-border p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+                            <span id="detail-category" class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-400 border border-amber-500/30">
+                                Heritage
+                            </span>
+                            <span id="detail-zone" class="text-xs text-slate-400 font-mono">CENTRAL BAZAAR</span>
+                        </div>
+                        <h3 id="detail-title" class="font-royal text-2xl font-bold text-white mb-3">
+                            Sardarshahar Clock Tower (Ghanta Ghar)
+                        </h3>
+                        <p id="detail-desc" class="text-slate-300 text-sm leading-relaxed mb-6">
+                            Standing proudly at the heart of the main bazaar, the iconic multi-tiered Ghanta Ghar features four illuminated clock faces, sandstone arches, and a domed chhatri cupola.
+                        </p>
+                        
+                        <div class="space-y-3 bg-[#0A0D14] p-4 rounded-xl border border-slate-800/80 text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Architecture / Role:</span>
+                                <span id="detail-sig" class="text-amber-200 font-medium">Historic City Centerpiece</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Visiting / Hours:</span>
+                                <span id="detail-hours" class="text-slate-200">Open 24 Hours</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Landmark Selector Buttons -->
+                    <div class="mt-6 pt-4 border-t border-slate-800">
+                        <p class="text-xs text-slate-400 uppercase tracking-wider mb-3">Focus on Building:</p>
+                        <div id="landmark-pills" class="flex flex-wrap gap-1.5"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Civic & Heritage Directory Cards -->
+    <section id="landmarks" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-10 gap-4">
+                <div>
+                    <span class="text-amber-400 text-xs font-bold uppercase tracking-widest">Civic & Cultural Atlas</span>
+                    <h2 class="font-royal text-3xl font-bold text-white mt-1">Key Institutions & Landmarks</h2>
+                </div>
+                
+                <!-- Filter Tabs -->
+                <div class="flex flex-wrap gap-2" id="filter-buttons">
+                    <button onclick="filterCards('all', this)" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950 transition">All</button>
+                    <button onclick="filterCards('Heritage', this)" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold bg-[#111622] text-slate-300 hover:text-amber-400 border border-slate-800 transition">Heritage & Temples</button>
+                    <button onclick="filterCards('Administration', this)" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold bg-[#111622] text-slate-300 hover:text-amber-400 border border-slate-800 transition">Administration</button>
+                    <button onclick="filterCards('Public', this)" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold bg-[#111622] text-slate-300 hover:text-amber-400 border border-slate-800 transition">Health & Grounds</button>
+                </div>
+            </div>
+
+            <div id="cards-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+        </div>
+    </section>
+
+    <!-- Royal History & Architecture Banner -->
+    <section id="heritage" class="py-20 bg-gradient-to-b from-[#0D111A] to-[#0A0D14] border-t border-amber-500/15">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-amber-400 text-xs font-bold uppercase tracking-widest">Chronicles of Bikaner State</span>
+                    <h2 class="font-royal text-3xl sm:text-4xl font-bold text-white mt-2 mb-6">
+                        Architectural Legacy of <span class="gold-gradient-text">Sardarshahar</span>
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-4">
+                        Established in 1838 by Maharaja Sardar Singh before his ascension to the throne of Bikaner, Sardarshahar was laid out with wide geometric avenues radiating around the central bazaar and Ghanta Ghar.
+                    </p>
+                    <p class="text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
+                        The town is celebrated for its grand merchant <strong>Havelis</strong> featuring Shekhawati frescoes, carved Dulmera red sandstone facades, domed <em>chhatris</em>, and intricate wooden craftsmanship.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 rounded-xl bg-[#111622] gold-border">
+                            <h4 class="font-royal font-bold text-amber-400 text-base">Painted Havelis</h4>
+                            <p class="text-xs text-slate-400 mt-1">19th-century merchant mansions with natural mineral murals.</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#111622] gold-border">
+                            <h4 class="font-royal font-bold text-amber-400 text-base">Handcrafted Woodwork</h4>
+                            <p class="text-xs text-slate-400 mt-1">Renowned across Rajasthan for intricate carved doors & furniture.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Card -->
+                <div class="bg-[#111622] rounded-2xl gold-border p-8 relative">
+                    <h3 class="font-royal text-xl font-bold text-amber-300 mb-6">Historical Milestones</h3>
+                    <div class="space-y-6 border-l-2 border-amber-500/30 pl-6 ml-2">
+                        <div class="relative">
+                            <span class="w-3 h-3 rounded-full bg-amber-400 absolute -left-[31px] top-1.5 ring-4 ring-[#111622]"></span>
+                            <span class="text-xs font-bold text-amber-400">1838 AD</span>
+                            <h4 class="font-semibold text-white text-base">Foundation by Maharaja Sardar Singh</h4>
+                            <p class="text-xs text-slate-400 mt-1">Establishment of the fortified town and central market layout in northern Bikaner territory.</p>
+                        </div>
+                        <div class="relative">
+                            <span class="w-3 h-3 rounded-full bg-amber-400 absolute -left-[31px] top-1.5 ring-4 ring-[#111622]"></span>
+                            <span class="text-xs font-bold text-amber-400">Late 19th Century</span>
+                            <h4 class="font-semibold text-white text-base">Golden Era of Grand Havelis & Ghanta Ghar</h4>
+                            <p class="text-xs text-slate-400 mt-1">Construction of multi-courtyard sandstone havelis, stepwells (kunds), and the Clock Tower.</p>
+                        </div>
+                        <div class="relative">
+                            <span class="w-3 h-3 rounded-full bg-amber-400 absolute -left-[31px] top-1.5 ring-4 ring-[#111622]"></span>
+                            <span class="text-xs font-bold text-amber-400">1916 – 1950</span>
+                            <h4 class="font-semibold text-white text-base">Railway & Educational Expansion</h4>
+                            <p class="text-xs text-slate-400 mt-1">Connected via railway; founding of Gandhi Vidya Mandir (GVM) as a premier educational hub.</p>
+                        </div>
+                        <div class="relative">
+                            <span class="w-3 h-3 rounded-full bg-amber-400 absolute -left-[31px] top-1.5 ring-4 ring-[#111622]"></span>
+                            <span class="text-xs font-bold text-amber-400">Modern Era</span>
+                            <h4 class="font-semibold text-white text-base">Growing Commercial & Civic Center</h4>
+                            <p class="text-xs text-slate-400 mt-1">A thriving municipal hub of Churu district blending heritage tourism, agriculture, and enterprise.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Civic & Emergency Quick Reference -->
+    <section id="directory" class="py-16 border-t border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-amber-400 text-xs font-bold uppercase tracking-widest">Citizen Utility</span>
+                <h2 class="font-royal text-3xl font-bold text-white mt-1">Sardarshahar Quick Directory</h2>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-[#111622] p-5 rounded-xl border border-slate-800 flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold shrink-0">🏛️</div>
+                    <div>
+                        <h4 class="font-semibold text-white text-sm">Municipal Board</h4>
+                        <p class="text-xs text-slate-400 mt-1">Nagar Palika Office, Station Road, Sardarshahar</p>
+                    </div>
+                </div>
+                <div class="bg-[#111622] p-5 rounded-xl border border-slate-800 flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold shrink-0">🏥</div>
+                    <div>
+                        <h4 class="font-semibold text-white text-sm">Govt. Taal Hospital</h4>
+                        <p class="text-xs text-slate-400 mt-1">Community Health Center (CHC), Near Taal Maidan</p>
+                    </div>
+                </div>
+                <div class="bg-[#111622] p-5 rounded-xl border border-slate-800 flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold shrink-0">⚖️</div>
+                    <div>
+                        <h4 class="font-semibold text-white text-sm">Sub-Division & Court</h4>
+                        <p class="text-xs text-slate-400 mt-1">SDM Office, Tahsil & Sub-Division Court Complex</p>
+                    </div>
+                </div>
+                <div class="bg-[#111622] p-5 rounded-xl border border-slate-800 flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold shrink-0">🚆</div>
+                    <div>
+                        <h4 class="font-semibold text-white text-sm">Transit Connectivity</h4>
+                        <p class="text-xs text-slate-400 mt-1">Sardarshahar Railway Station (SRDR) & Mega Highway</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#07090E] border-t border-amber-500/20 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <span class="font-royal font-bold gold-gradient-text text-lg">SARDARSHAHAR</span>
+                <span class="text-slate-600">|</span>
+                <span class="text-xs text-slate-400">Royal Heritage & City Portal • Churu, Rajasthan</span>
+            </div>
+            <p class="text-xs text-slate-500">
+                © 2026 Sardarshahar City Portal. Celebrating Heritage, Culture & Civic Pride.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Landmark Dataset
+        const landmarks = [
+            {
+                id: 'clock-tower',
+                name: 'Sardarshahar Clock Tower (Ghanta Ghar)',
+                shortName: 'Clock Tower',
+                category: 'Heritage',
+                zone: 'CENTRAL BAZAAR',
+                pos: [0, 0],
+                labelHeight: 5.9,
+                ringRadius: 1.5,
+                significance: 'Historic City Centerpiece',
+                hours: 'Open 24 Hours',
+                desc: 'Standing proudly at the heart of the main bazaar, the iconic multi-tiered Ghanta Ghar features four illuminated clock dials, sandstone arches, and a domed chhatri cupola.'
+            },
+            {
+                id: 'balaji-temple',
+                name: 'Ichchhapurna Balaji Temple',
+                shortName: 'Balaji Temple',
+                category: 'Heritage',
+                zone: 'SPIRITUAL QUARTER',
+                pos: [-5.2, -4.2],
+                labelHeight: 5.0,
+                ringRadius: 2.2,
+                significance: 'Major Pilgrimage & Architectural Gem',
+                hours: '5:00 AM – 10:00 PM',
+                desc: 'A revered spiritual landmark crafted in traditional Rajasthani temple architecture with a towering curved Shikhara spire, pillared Mandapa hall, golden Kalash, and saffron temple flag.'
+            },
+            {
+                id: 'nagar-palika',
+                name: 'Municipal Board (Nagar Palika)',
+                shortName: 'Nagar Palika',
+                category: 'Administration',
+                zone: 'CIVIC AVENUE',
+                pos: [5.0, -4.0],
+                labelHeight: 3.4,
+                ringRadius: 2.3,
+                significance: 'Urban Civic Governance',
+                hours: '10:00 AM – 5:00 PM (Mon–Sat)',
+                desc: 'The symmetric colonnaded civic headquarters overseeing urban development, heritage preservation, sanitation, and municipal services for all wards across Sardarshahar.'
+            },
+            {
+                id: 'sdm-court',
+                name: 'Sub-Division Court & SDM Office',
+                shortName: 'Court & SDM',
+                category: 'Administration',
+                zone: 'JUDICIAL COMPLEX',
+                pos: [-5.4, 3.8],
+                labelHeight: 3.5,
+                ringRadius: 2.4,
+                significance: 'Sub-Divisional Judiciary & Revenue',
+                hours: '10:00 AM – 5:00 PM',
+                desc: 'Heritage red-sandstone judicial complex with classical pediment portico, pillared verandahs, and administrative chambers serving the sub-division.'
+            },
+            {
+                id: 'tahsil-office',
+                name: 'Tahsil Office Sardarshahar',
+                shortName: 'Tahsil Office',
+                category: 'Administration',
+                zone: 'REVENUE BLOCK',
+                pos: [-2.0, 5.4],
+                labelHeight: 3.0,
+                ringRadius: 2.1,
+                significance: 'Land Records & Tehsil Admin',
+                hours: '10:00 AM – 5:00 PM',
+                desc: 'U-shaped revenue administration office with arched corridors and central entrance porch managing land records and citizen services.'
+            },
+            {
+                id: 'taal-hospital',
+                name: 'Taal Hospital (Govt. CHC)',
+                shortName: 'Taal Hospital',
+                category: 'Public',
+                zone: 'HEALTH SECTOR',
+                pos: [5.2, 2.6],
+                labelHeight: 3.6,
+                ringRadius: 2.4,
+                significance: 'Primary Public Healthcare',
+                hours: '24/7 Emergency Services',
+                desc: 'Multi-wing government Community Health Center with ambulance bay canopy, emergency wards, and rooftop red-cross beacon.'
+            },
+            {
+                id: 'taal-maidan',
+                name: 'Taal Maidan Ground',
+                shortName: 'Taal Maidan',
+                category: 'Public',
+                zone: 'RECREATION & EVENTS',
+                pos: [2.6, 5.4],
+                labelHeight: 2.4,
+                ringRadius: 2.5,
+                significance: 'Community Ground & Cultural Venue',
+                hours: '5:00 AM – 9:00 PM',
+                desc: 'Expansive stadium ground with lush green turf, white track markings, spectator pavilion, and four corner floodlight towers.'
+            },
+            {
+                id: 'royal-havelis',
+                name: 'Heritage Havelis & Old Fort',
+                shortName: 'Royal Havelis',
+                category: 'Heritage',
+                zone: 'OLD WALLED TOWN',
+                pos: [0.2, -5.5],
+                labelHeight: 3.6,
+                ringRadius: 2.3,
+                significance: 'Shekhawati Fresco Architecture',
+                hours: '9:00 AM – 6:00 PM',
+                desc: 'Traditional courtyard Haveli featuring carved Dulmera sandstone facade, overhanging Jharokha balconies, arched Pol gateway, and rooftop Chhatri domes.'
+            }
+        ];
+
+        // Populate Directory Cards
+        const grid = document.getElementById('cards-grid');
+        function renderCards(filter = 'all') {
+            grid.innerHTML = '';
+            const filtered = filter === 'all' ? landmarks : landmarks.filter(l => l.category === filter);
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-[#111622] rounded-xl gold-border p-6 flex flex-col justify-between transition hover:-translate-y-1 duration-300';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-amber-500/10 text-amber-400">
+                                ${item.category}
+                            </span>
+                            <span class="text-[11px] text-slate-500 font-mono">${item.zone}</span>
+                        </div>
+                        <h3 class="font-royal text-lg font-bold text-white mb-2">${item.name}</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed mb-4">${item.desc}</p>
+                    </div>
+                    <button onclick="focusLandmark('${item.id}'); document.getElementById('explorer').scrollIntoView({behavior:'smooth'});" 
+                        class="w-full py-2 rounded-lg bg-[#0A0D14] hover:bg-amber-500 hover:text-slate-950 text-amber-300 text-xs font-semibold border border-amber-500/30 transition">
+                        Inspect 3D Model →
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+        renderCards();
+
+        function filterCards(cat, btnEl) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-amber-500', 'text-slate-950');
+                btn.classList.add('bg-[#111622]', 'text-slate-300');
+            });
+            btnEl.classList.remove('bg-[#111622]', 'text-slate-300');
+            btnEl.classList.add('bg-amber-500', 'text-slate-950');
+            renderCards(cat);
+        }
+
+        // Populate Quick Pills in 3D Panel
+        const pillsContainer = document.getElementById('landmark-pills');
+        landmarks.forEach(l => {
+            const btn = document.createElement('button');
+            btn.textContent = l.shortName;
+            btn.className = 'px-2.5 py-1 rounded bg-[#0A0D14] hover:bg-amber-500/20 border border-slate-800 hover:border-amber-500/50 text-[11px] text-slate-300 hover:text-amber-300 transition';
+            btn.onclick = () => focusLandmark(l.id);
+            pillsContainer.appendChild(btn);
+        });
+
+        // ==========================================
+        // THREE.JS REALISTIC ARCHITECTURAL CITY ENGINE
+        // ==========================================
+        const container = document.getElementById('canvas-container');
+        const labelsLayer = document.getElementById('labels-layer');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x090D16);
+        scene.fog = new THREE.FogExp2(0x090D16, 0.022);
+
+        const camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 120);
+        let targetLookAt = new THREE.Vector3(0, 0.8, 0);
+        let currentLookAt = new THREE.Vector3(0, 0.8, 0);
+        let spherical = { radius: 18.5, theta: Math.PI / 4, phi: Math.PI / 3.1 };
+        let targetSpherical = { ...spherical };
+        let autoRotate = true;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        container.appendChild(renderer.domElement);
+
+        // Warm Golden Hour & Sky Lighting
+        const hemiLight = new THREE.HemisphereLight(0xFFF7ED, 0x1E293B, 0.7);
+        scene.add(hemiLight);
+
+        const sunLight = new THREE.DirectionalLight(0xFDE68A, 1.35);
+        sunLight.position.set(14, 22, 12);
+        sunLight.castShadow = true;
+        sunLight.shadow.mapSize.width = 2048;
+        sunLight.shadow.mapSize.height = 2048;
+        sunLight.shadow.camera.near = 2;
+        sunLight.shadow.camera.far = 45;
+        const d = 12;
+        sunLight.shadow.camera.left = -d;
+        sunLight.shadow.camera.right = d;
+        sunLight.shadow.camera.top = d;
+        sunLight.shadow.camera.bottom = -d;
+        scene.add(sunLight);
+
+        const fillLight = new THREE.DirectionalLight(0x60A5FA, 0.45);
+        fillLight.position.set(-12, 10, -10);
+        scene.add(fillLight);
+
+        // Shared Architectural Materials
+        const mats = {
+            sandstone: new THREE.MeshStandardMaterial({ color: 0xD99B66, roughness: 0.65 }),
+            redSandstone: new THREE.MeshStandardMaterial({ color: 0xB85D3B, roughness: 0.65 }),
+            creamPlaster: new THREE.MeshStandardMaterial({ color: 0xF1E4D1, roughness: 0.6 }),
+            marble: new THREE.MeshStandardMaterial({ color: 0xF8FAFC, roughness: 0.35 }),
+            gold: new THREE.MeshStandardMaterial({ color: 0xF59E0B, metalness: 0.75, roughness: 0.2 }),
+            darkWood: new THREE.MeshStandardMaterial({ color: 0x3E2723, roughness: 0.7 }),
+            glass: new THREE.MeshStandardMaterial({ color: 0x1E3A5F, metalness: 0.8, roughness: 0.15 }),
+            hospitalWhite: new THREE.MeshStandardMaterial({ color: 0xE2E8F0, roughness: 0.45 }),
+            hospitalTeal: new THREE.MeshStandardMaterial({ color: 0x0D9488, roughness: 0.5 }),
+            redCross: new THREE.MeshStandardMaterial({ color: 0xEF4444, emissive: 0x991B1B, emissiveIntensity: 0.4 }),
+            turf: new THREE.MeshStandardMaterial({ color: 0x15803D, roughness: 0.85 }),
+            saffron: new THREE.MeshStandardMaterial({ color: 0xF97316, emissive: 0xEA580C, emissiveIntensity: 0.3 }),
+            asphalt: new THREE.MeshStandardMaterial({ color: 0x1E2536, roughness: 0.9 }),
+            sidewalk: new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.8 })
+        };
+
+        // Ground Base & Desert Sand Border
+        const basePlatform = new THREE.Mesh(new THREE.BoxGeometry(18, 0.7, 18), new THREE.MeshStandardMaterial({ color: 0x131926, roughness: 0.85 }));
+        basePlatform.position.y = -0.35;
+        basePlatform.receiveShadow = true;
+        scene.add(basePlatform);
+
+        const groundTop = new THREE.Mesh(new THREE.PlaneGeometry(17.6, 17.6), new THREE.MeshStandardMaterial({ color: 0x1A2234, roughness: 0.9 }));
+        groundTop.rotation.x = -Math.PI / 2;
+        groundTop.receiveShadow = true;
+        scene.add(groundTop);
+
+        // Roads & Roundabout around Clock Tower
+        function addRoad(w, d, x, z) {
+            const curb = new THREE.Mesh(new THREE.BoxGeometry(w + 0.25, 0.03, d + 0.25), mats.sidewalk);
+            curb.position.set(x, 0.015, z);
+            curb.receiveShadow = true;
+            scene.add(curb);
+
+            const road = new THREE.Mesh(new THREE.BoxGeometry(w, 0.04, d), mats.asphalt);
+            road.position.set(x, 0.02, z);
+            road.receiveShadow = true;
+            scene.add(road);
+        }
+        addRoad(17.4, 1.3, 0, 0);
+        addRoad(1.3, 17.4, 0, 0);
+        addRoad(11.5, 0.8, 0, -4.2);
+        addRoad(11.5, 0.8, 0, 4.0);
+
+        // Central Chowk Traffic Island
+        const chowkBase = new THREE.Mesh(new THREE.CylinderGeometry(1.45, 1.55, 0.16, 32), mats.sidewalk);
+        chowkBase.position.y = 0.08;
+        chowkBase.receiveShadow = true;
+        scene.add(chowkBase);
+
+        // Helper to tag meshes for raycasting
+        const interactiveMeshes = [];
+        function registerClickable(group, id) {
+            group.traverse(child => {
+                if (child.isMesh) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                    child.userData.id = id;
+                    interactiveMeshes.push(child);
+                }
+            });
+        }
+
+        // ------------------------------------------
+        // 1. REALISTIC CLOCK TOWER (GHANTA GHAR)
+        // ------------------------------------------
+        function buildClockTower() {
+            const g = new THREE.Group();
+            
+            // Tier 1: Arched Plinth Base
+            const base = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1.2, 1.5), mats.redSandstone);
+            base.position.y = 0.75;
+            g.add(base);
+
+            // Dark Arch Cutouts on 4 sides
+            [0, Math.PI/2, Math.PI, -Math.PI/2].forEach(rot => {
+                const arch = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.85, 1.56), mats.darkWood);
+                arch.position.y = 0.6;
+                arch.rotation.y = rot;
+                g.add(arch);
+            });
+
+            // Cornice Ledge 1
+            const ledge1 = new THREE.Mesh(new THREE.BoxGeometry(1.75, 0.14, 1.75), mats.sandstone);
+            ledge1.position.y = 1.4;
+            g.add(ledge1);
+
+            // Tier 2: Main Shaft with Corner Pilasters
+            const shaft = new THREE.Mesh(new THREE.BoxGeometry(1.22, 1.6, 1.22), mats.sandstone);
+            shaft.position.y = 2.25;
+            g.add(shaft);
+
+            // Balcony Ledge 2
+            const balcony = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.16, 1.6), mats.redSandstone);
+            balcony.position.y = 3.1;
+            g.add(balcony);
+
+            // Tier 3: Clock Chamber with 4 Illuminated Clock Faces
+            const clockBox = new THREE.Mesh(new THREE.BoxGeometry(1.12, 1.15, 1.12), mats.creamPlaster);
+            clockBox.position.y = 3.75;
+            g.add(clockBox);
+
+            // 4 Clock Dials + Hands
+            const dialGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.06, 24);
+            const dialMat = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, emissive: 0xFEF3C7, emissiveIntensity: 0.5 });
+            const rimGeo = new THREE.TorusGeometry(0.41, 0.04, 12, 24);
+
+            const clockDirs = [
+                { pos: [0, 3.78, 0.57], rot: [Math.PI/2, 0, 0], rimRot: [0, 0, 0] },
+                { pos: [0, 3.78, -0.57], rot: [Math.PI/2, 0, 0], rimRot: [0, 0, 0] },
+                { pos: [0.57, 3.78, 0], rot: [0, 0, Math.PI/2], rimRot: [0, Math.PI/2, 0] },
+                { pos: [-0.57, 3.78, 0], rot: [0, 0, Math.PI/2], rimRot: [0, Math.PI/2, 0] }
+            ];
+            clockDirs.forEach(d => {
+                const dial = new THREE.Mesh(dialGeo, dialMat);
+                dial.position.set(...d.pos);
+                dial.rotation.set(...d.rot);
+                g.add(dial);
+
+                const rim = new THREE.Mesh(rimGeo, mats.gold);
+                rim.position.set(...d.pos);
+                rim.rotation.set(...d.rimRot);
+                g.add(rim);
+            });
+
+            // Tier 4: Chhatri Dome & Finial
+            const roofCornice = new THREE.Mesh(new THREE.BoxGeometry(1.38, 0.14, 1.38), mats.redSandstone);
+            roofCornice.position.y = 4.38;
+            g.add(roofCornice);
+
+            // 4 Chhatri Pillars
+            [[-0.4, -0.4], [0.4, -0.4], [-0.4, 0.4], [0.4, 0.4]].forEach(([px, pz]) => {
+                const pil = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.55, 8), mats.sandstone);
+                pil.position.set(px, 4.7, pz);
+                g.add(pil);
+            });
+
+            const dome = new THREE.Mesh(new THREE.SphereGeometry(0.55, 16, 12, 0, Math.PI * 2, 0, Math.PI / 2), mats.redSandstone);
+            dome.position.y = 4.95;
+            g.add(dome);
+
+            const spire = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.65, 8), mats.gold);
+            spire.position.y = 5.75;
+            g.add(spire);
+
+            return g;
+        }
+
+        // ------------------------------------------
+        // 2. ICHCHHAPURNA BALAJI TEMPLE
+        // ------------------------------------------
+        function buildBalajiTemple() {
+            const g = new THREE.Group();
+
+            // Raised Marble Jagati Platform & Stairs
+            const plinth = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.35, 3.4), mats.marble);
+            plinth.position.y = 0.175;
+            g.add(plinth);
+
+            for (let i = 0; i < 3; i++) {
+                const step = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.1, 0.25), mats.sandstone);
+                step.position.set(0, 0.05 + i * 0.1, 1.75 - i * 0.15);
+                g.add(step);
+            }
+
+            // Pillared Mandapa (Front Prayer Hall)
+            const mandapaRoof = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.2, 1.5), mats.sandstone);
+            mandapaRoof.position.set(0, 1.45, 0.55);
+            g.add(mandapaRoof);
+
+            const mandapaDome = new THREE.Mesh(new THREE.ConeGeometry(0.95, 0.9, 8), mats.creamPlaster);
+            mandapaDome.position.set(0, 2.0, 0.55);
+            g.add(mandapaDome);
+
+            // Mandapa Pillars
+            [[-0.85, 1.2], [0.85, 1.2], [-0.85, 0.0], [0.85, 0.0]].forEach(([px, pz]) => {
+                const col = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.11, 1.05, 10), mats.sandstone);
+                col.position.set(px, 0.88, pz);
+                g.add(col);
+            });
+
+            // Sanctum (Garbhagriha) & Curved Stepped Shikhara Tower
+            const sanctum = new THREE.Mesh(new THREE.BoxGeometry(1.75, 1.4, 1.65), mats.sandstone);
+            sanctum.position.set(0, 1.05, -0.75);
+            g.add(sanctum);
+
+            // Glowing Inner Shrine Doorway
+            const shrineGlow = new THREE.Mesh(
+                new THREE.BoxGeometry(0.65, 0.9, 0.1),
+                new THREE.MeshStandardMaterial({ color: 0xFBBF24, emissive: 0xF59E0B, emissiveIntensity: 0.9 })
+            );
+            shrineGlow.position.set(0, 0.85, 0.09);
+            g.add(shrineGlow);
+
+            // Stepped Shikhara Spire (5 tapering tiers)
+            const tiers = [
+                { w: 1.65, h: 0.45, y: 1.95 },
+                { w: 1.40, h: 0.45, y: 2.38 },
+                { w: 1.12, h: 0.45, y: 2.80 },
+                { w: 0.82, h: 0.42, y: 3.20 },
+                { w: 0.52, h: 0.38, y: 3.56 }
+            ];
+            tiers.forEach((t, idx) => {
+                const tierMesh = new THREE.Mesh(
+                    new THREE.BoxGeometry(t.w, t.h, t.w),
+                    idx % 2 === 0 ? mats.sandstone : mats.redSandstone
+                );
+                tierMesh.position.set(0, t.y, -0.75);
+                g.add(tierMesh);
+            });
+
+            // Amalaka & Golden Kalash
+            const amalaka = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 0.15, 16), mats.gold);
+            amalaka.position.set(0, 3.82, -0.75);
+            g.add(amalaka);
+
+            const kalash = new THREE.Mesh(new THREE.ConeGeometry(0.18, 0.45, 12), mats.gold);
+            kalash.position.set(0, 4.1, -0.75);
+            g.add(kalash);
+
+            // Temple Flag (Dhwaja)
+            const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.8, 6), mats.gold);
+            pole.position.set(0, 4.55, -0.75);
+            g.add(pole);
+
+            const flag = new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.45, 3), mats.saffron);
+            flag.rotation.z = -Math.PI / 2;
+            flag.position.set(0.22, 4.75, -0.75);
+            g.add(flag);
+
+            return g;
+        }
+
+        // ------------------------------------------
+        // 3. MUNICIPAL BOARD (NAGAR PALIKA)
+        // ------------------------------------------
+        function buildNagarPalika() {
+            const g = new THREE.Group();
+
+            // Main Symmetric Civic Building
+            const mainWing = new THREE.Mesh(new THREE.BoxGeometry(3.2, 1.55, 1.5), mats.creamPlaster);
+            mainWing.position.y = 0.78;
+            g.add(mainWing);
+
+            // Sandstone Trim & Roof Parapet
+            const roofTrim = new THREE.Mesh(new THREE.BoxGeometry(3.35, 0.16, 1.65), mats.redSandstone);
+            roofTrim.position.y = 1.62;
+            g.add(roofTrim);
+
+            // Central Entrance Portico with Columns
+            const porticoRoof = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.15, 0.75), mats.sandstone);
+            porticoRoof.position.set(0, 1.25, 1.05);
+            g.add(porticoRoof);
+
+            [-0.42, 0.42].forEach(px => {
+                const col = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.08, 1.2, 10), mats.marble);
+                col.position.set(px, 0.6, 1.32);
+                g.add(col);
+            });
+
+            // Central Crown Clock/Crest & Flagpole
+            const crest = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.45, 0.4), mats.sandstone);
+            crest.position.set(0, 1.9, 0.55);
+            g.add(crest);
+
+            const flagPole = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.9, 6), mats.marble);
+            flagPole.position.set(0, 2.5, 0.55);
+            g.add(flagPole);
+
+            // Windows Grid
+            for (let x = -1.2; x <= 1.2; x += 0.6) {
+                if (Math.abs(x) < 0.3) continue;
+                [0.5, 1.15].forEach(y => {
+                    const win = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.38, 1.54), mats.glass);
+                    win.position.set(x, y, 0);
+                    g.add(win);
+                });
+            }
+
+            return g;
+        }
+
+        // ------------------------------------------
+        // 4. SUB-DIVISION COURT & SDM OFFICE
+        // ------------------------------------------
+        function buildCourtBuilding() {
+            const g = new THREE.Group();
+
+            // Red Sandstone Heritage Judicial Wing
+            const body = new THREE.Mesh(new THREE.BoxGeometry(3.4, 1.45, 1.6), mats.redSandstone);
+            body.position.y = 0.725;
+            g.add(body);
+
+            // Pitched Terracotta/Sandstone Roof
+            const roof = new THREE.Mesh(new THREE.BoxGeometry(3.55, 0.25, 1.75), mats.sandstone);
+            roof.position.y = 1.55;
+            g.add(roof);
+
+            // Classical Triangular Pediment Portico
+            const porticoBase = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.45, 0.65), mats.sandstone);
+            porticoBase.position.set(0, 0.725, 1.05);
+            g.add(porticoBase);
+
+            const pediment = new THREE.Mesh(new THREE.ConeGeometry(0.85, 0.5, 4), mats.creamPlaster);
+            pediment.rotation.y = Math.PI / 4;
+            pediment.position.set(0, 1.75, 1.05);
+            g.add(pediment);
+
+            // Front Verandah Arches/Windows
+            for (let x = -1.3; x <= 1.3; x += 0.65) {
+                if (Math.abs(x) < 0.4) continue;
+                const arch = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.85, 1.64), mats.darkWood);
+                arch.position.set(x, 0.6, 0);
+                g.add(arch);
+            }
+
+            return g;
+        }
+
+        // ------------------------------------------
+        // 5. TAAL HOSPITAL (GOVT. CHC)
+        // ------------------------------------------
+        function buildTaalHospital() {
+            const g = new THREE.Group();
+
+            // Main 2-Story Medical Block
+            const main = new THREE.Mesh(new THREE.BoxGeometry(3.2, 1.85, 1.5), mats.hospitalWhite);
+            main.position.y = 0.925;
+            g.add(main);
+
+            // Teal Architectural Accent Band
+            const band = new THREE.Mesh(new THREE.BoxGeometry(3.26, 0.25, 1.56), mats.hospitalTeal);
+            band.position.y = 1.0;
+            g.add(band);
+
+            // Ambulance Emergency Canopy Porch
+            const canopy = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.14, 0.95), mats.hospitalTeal);
+            canopy.position.set(-0.7, 0.85, 1.15);
+            g.add(canopy);
+
+            [-1.15, -0.25].forEach(px => {
+                const post = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.85, 8), mats.hospitalWhite);
+                post.position.set(px, 0.425, 1.55);
+                g.add(post);
+            });
+
+            // Rooftop Red Cross Medical Beacon
+            const signBoard = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.75, 0.18), mats.hospitalWhite);
+            signBoard.position.set(0, 2.25, 0.4);
+            g.add(signBoard);
+
+            const crossV = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.5, 0.22), mats.redCross);
+            crossV.position.set(0, 2.25, 0.4);
+            g.add(crossV);
+
+            const crossH = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.16, 0.22), mats.redCross);
+            crossH.position.set(0, 2.25, 0.4);
+            g.add(crossH);
+
+            // Hospital Windows
+            for (let x = -1.2; x <= 1.2; x += 0.6) {
+                [0.48, 1.42].forEach(y => {
+                    const win = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.36, 1.54), mats.glass);
+                    win.position.set(x, y, 0);
+                    g.add(win);
+                });
+            }
+
+            return g;
+        }
+
+        // ------------------------------------------
+        // 6. TAAL MAIDAN STADIUM & GROUND
+        // ------------------------------------------
+        function buildTaalMaidan() {
+            const g = new THREE.Group();
+
+            // Green Turf Field
+            const field = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.12, 2.6), mats.turf);
+            field.position.y = 0.06;
+            g.add(field);
+
+            // White Running Track Oval Border
+            const track = new THREE.Mesh(new THREE.RingGeometry(0.85, 1.05, 32), mats.marble);
+            track.rotation.x = -Math.PI / 2;
+            track.position.y = 0.13;
+            g.add(track);
+
+            // Spectator Pavilion Stand on North Side
+            const pavilion = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.65, 0.55), mats.sandstone);
+            pavilion.position.set(0, 0.35, -1.15);
+            g.add(pavilion);
+
+            const pavRoof = new THREE.Mesh(new THREE.BoxGeometry(2.15, 0.1, 0.75), mats.redSandstone);
+            pavRoof.position.set(0, 0.72, -1.1);
+            g.add(pavRoof);
+
+            // 4 Corner Floodlight Towers
+            [[-1.6, -1.2], [1.6, -1.2], [-1.6, 1.2], [1.6, 1.2]].forEach(([fx, fz]) => {
+                const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.05, 1.6, 6), mats.sidewalk);
+                mast.position.set(fx, 0.8, fz);
+                g.add(mast);
+
+                const lightPanel = new THREE.Mesh(
+                    new THREE.BoxGeometry(0.28, 0.18, 0.08),
+                    new THREE.MeshStandardMaterial({ color: 0xFFFFFF, emissive: 0xFDE68A, emissiveIntensity: 0.9 })
+                );
+                lightPanel.position.set(fx, 1.6, fz);
+                lightPanel.lookAt(0, 0, 0);
+                g.add(lightPanel);
+            });
+
+            return g;
+        }
+
+        // ------------------------------------------
+        // 7. TAHSIL OFFICE (U-SHAPED REVENUE BLOCK)
+        // ------------------------------------------
+        function buildTahsilOffice() {
+            const g = new THREE.Group();
+
+            // Back Main Block
+            const back = new THREE.Mesh(new THREE.BoxGeometry(2.7, 1.35, 0.85), mats.sandstone);
+            back.position.set(0, 0.675, -0.45);
+            g.add(back);
+
+            // Left & Right Wings forming U-shape
+            [-1.0, 1.0].forEach(wx => {
+                const wing = new THREE.Mesh(new THREE.BoxGeometry(0.7, 1.25, 1.1), mats.creamPlaster);
+                wing.position.set(wx, 0.625, 0.45);
+                g.add(wing);
+            });
+
+            // Central Entrance Porch
+            const porch = new THREE.Mesh(new THREE.BoxGeometry(0.85, 1.45, 0.95), mats.redSandstone);
+            porch.position.set(0, 0.725, -0.35);
+            g.add(porch);
+
+            return g;
+        }
+
+        // ------------------------------------------
+        // 8. HERITAGE HAVELIS & OLD FORT
+        // ------------------------------------------
+        function buildRoyalHavelis() {
+            const g = new THREE.Group();
+
+            // Outer Fortified Haveli Courtyard Walls
+            const frontWall = new THREE.Mesh(new THREE.BoxGeometry(2.8, 1.55, 0.55), mats.sandstone);
+            frontWall.position.set(0, 0.775, 0.85);
+            g.add(frontWall);
+
+            const backHaveli = new THREE.Mesh(new THREE.BoxGeometry(2.8, 1.85, 0.75), mats.redSandstone);
+            backHaveli.position.set(0, 0.925, -0.75);
+            g.add(backHaveli);
+
+            [-1.15, 1.15].forEach(sx => {
+                const sideWing = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.5, 1.6), mats.sandstone);
+                sideWing.position.set(sx, 0.75, 0.05);
+                g.add(sideWing);
+            });
+
+            // Grand Arched Pol Gateway
+            const gateArch = new THREE.Mesh(new THREE.BoxGeometry(0.65, 1.0, 0.6), mats.darkWood);
+            gateArch.position.set(0, 0.5, 0.85);
+            g.add(gateArch);
+
+            // Overhanging Jharokha Balconies
+            [-0.75, 0.75].forEach(jx => {
+                const jharokha = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.55, 0.25), mats.creamPlaster);
+                jharokha.position.set(jx, 1.15, 1.18);
+                g.add(jharokha);
+            });
+
+            // Corner Rooftop Chhatri Domes
+            [[-1.1, -0.75], [1.1, -0.75]].forEach(([cx, cz]) => {
+                const dome = new THREE.Mesh(new THREE.SphereGeometry(0.32, 12, 10, 0, Math.PI * 2, 0, Math.PI / 2), mats.gold);
+                dome.position.set(cx, 1.85, cz);
+                g.add(dome);
+            });
+
+            return g;
+        }
+
+        // Instantiate All 8 Architectural Models
+        const builders = {
+            'clock-tower': buildClockTower,
+            'balaji-temple': buildBalajiTemple,
+            'nagar-palika': buildNagarPalika,
+            'sdm-court': buildCourtBuilding,
+            'tahsil-office': buildTahsilOffice,
+            'taal-hospital': buildTaalHospital,
+            'taal-maidan': buildTaalMaidan,
+            'royal-havelis': buildRoyalHavelis
+        };
+
+        const rings = [];
+        const labelElements = {};
+
+        landmarks.forEach(item => {
+            const model = builders[item.id]();
+            model.position.set(item.pos[0], 0, item.pos[1]);
+            registerClickable(model, item.id);
+            scene.add(model);
+
+            // Ground Selection Ring
+            const ringGeo = new THREE.RingGeometry(item.ringRadius - 0.15, item.ringRadius, 36);
+            const ringMat = new THREE.MeshBasicMaterial({
+                color: 0xFBBF24,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: item.id === 'clock-tower' ? 0.95 : 0.18
+            });
+            const ring = new THREE.Mesh(ringGeo, ringMat);
+            ring.rotation.x = -Math.PI / 2;
+            ring.position.set(item.pos[0], 0.05, item.pos[1]);
+            ring.userData = { id: item.id };
+            scene.add(ring);
+            rings.push(ring);
+
+            // Create Floating HTML Name Tag
+            const tag = document.createElement('div');
+            tag.className = 'map-label px-2.5 py-1 rounded-md text-[11px] font-semibold shadow-lg backdrop-blur-md border ' +
+                (item.id === 'clock-tower'
+                    ? 'bg-amber-500 text-slate-950 border-amber-300'
+                    : 'bg-slate-900/85 text-amber-100 border-amber-500/40 hover:border-amber-400');
+            tag.textContent = item.shortName;
+            tag.onclick = () => focusLandmark(item.id);
+            labelsLayer.appendChild(tag);
+            labelElements[item.id] = tag;
+        });
+
+        // Add Surrounding Town Houses & Trees for Realism
+        const housePositions = [
+            [-2.6, -2.1], [-3.6, -2.1], [2.5, -2.1], [3.5, -2.1],
+            [-2.6, 2.0], [-3.6, 2.0], [2.5, 2.0], [3.5, 2.0],
+            [-7.2, -1.5], [-7.2, 1.5], [7.2, -1.5], [7.2, 1.5]
+        ];
+        housePositions.forEach(([hx, hz], idx) => {
+            const h = 0.65 + (idx % 3) * 0.25;
+            const house = new THREE.Mesh(
+                new THREE.BoxGeometry(0.85, h, 0.85),
+                idx % 2 === 0 ? mats.sandstone : mats.creamPlaster
+            );
+            house.position.set(hx, h / 2, hz);
+            house.castShadow = true;
+            house.receiveShadow = true;
+            scene.add(house);
+        });
+
+        // Desert Trees along Avenues
+        const treePositions = [
+            [-2.0, -0.95], [2.0, -0.95], [-2.0, 0.95], [2.0, 0.95],
+            [-6.5, -0.95], [6.5, -0.95], [-0.95, -2.5], [0.95, 2.5]
+        ];
+        const foliageMat = new THREE.MeshStandardMaterial({ color: 0x166534, roughness: 0.8 });
+        treePositions.forEach(([tx, tz]) => {
+            const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.06, 0.35, 6), mats.darkWood);
+            trunk.position.set(tx, 0.175, tz);
+            scene.add(trunk);
+
+            const crown = new THREE.Mesh(new THREE.SphereGeometry(0.24, 8, 8), foliageMat);
+            crown.position.set(tx, 0.45, tz);
+            crown.castShadow = true;
+            scene.add(crown);
+        });
+
+        // Update UI & Smoothly Focus Camera on Selected Landmark
+        function focusLandmark(id) {
+            const data = landmarks.find(l => l.id === id);
+            if (!data) return;
+
+            document.getElementById('detail-category').textContent = data.category;
+            document.getElementById('detail-zone').textContent = data.zone;
+            document.getElementById('detail-title').textContent = data.name;
+            document.getElementById('detail-desc').textContent = data.desc;
+            document.getElementById('detail-sig').textContent = data.significance;
+            document.getElementById('detail-hours').textContent = data.hours;
+
+            rings.forEach(r => {
+                r.material.opacity = r.userData.id === id ? 0.95 : 0.15;
+            });
+
+            Object.entries(labelElements).forEach(([key, el]) => {
+                if (key === id) {
+                    el.className = 'map-label px-2.5 py-1 rounded-md text-[11px] font-bold shadow-lg bg-amber-500 text-slate-950 border border-amber-200';
+                } else {
+                    el.className = 'map-label px-2.5 py-1 rounded-md text-[11px] font-semibold shadow-lg backdrop-blur-md bg-slate-900/85 text-amber-100 border border-amber-500/40 hover:border-amber-400';
+                }
+            });
+
+            targetLookAt.set(data.pos[0] * 0.45, 0.9, data.pos[1] * 0.45);
+            targetSpherical.radius = 14.5;
+        }
+
+        function resetCamera() {
+            targetLookAt.set(0, 0.8, 0);
+            targetSpherical = { radius: 18.5, theta: Math.PI / 4, phi: Math.PI / 3.1 };
+            autoRotate = true;
+            document.getElementById('rotate-btn').textContent = 'Pause Orbit';
+        }
+
+        function toggleAutoRotate() {
+            autoRotate = !autoRotate;
+            document.getElementById('rotate-btn').textContent = autoRotate ? 'Pause Orbit' : 'Resume Orbit';
+        }
+
+        // Orbit, Zoom & Click Controls
+        let isDragging = false;
+        let prevMouse = { x: 0, y: 0 };
+        let downPos = { x: 0, y: 0 };
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        container.addEventListener('pointerdown', (e) => {
+            if (e.target.classList.contains('map-label')) return;
+            isDragging = true;
+            autoRotate = false;
+            document.getElementById('rotate-btn').textContent = 'Resume Orbit';
+            prevMouse = { x: e.clientX, y: e.clientY };
+            downPos = { x: e.clientX, y: e.clientY };
+        });
+
+        window.addEventListener('pointermove', (e) => {
+            if (!isDragging) return;
+            const dx = e.clientX - prevMouse.x;
+            const dy = e.clientY - prevMouse.y;
+            targetSpherical.theta -= dx * 0.008;
+            targetSpherical.phi = Math.max(0.38, Math.min(Math.PI / 2.15, targetSpherical.phi - dy * 0.008));
+            prevMouse = { x: e.clientX, y: e.clientY };
+        });
+
+        window.addEventListener('pointerup', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            const moveDist = Math.hypot(e.clientX - downPos.x, e.clientY - downPos.y);
+            if (moveDist < 5) {
+                const rect = renderer.domElement.getBoundingClientRect();
+                mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+                raycaster.setFromCamera(mouse, camera);
+                const hits = raycaster.intersectObjects(interactiveMeshes);
+                if (hits.length > 0 && hits[0].object.userData.id) {
+                    focusLandmark(hits[0].object.userData.id);
+                }
+            }
+        });
+
+        container.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            targetSpherical.radius = Math.max(10, Math.min(25, targetSpherical.radius + e.deltaY * 0.01));
+        }, { passive: false });
+
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+
+        // Update Floating HTML Labels to Follow 3D Positions
+        const tempVec = new THREE.Vector3();
+        function updateLabels() {
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            landmarks.forEach(item => {
+                tempVec.set(item.pos[0], item.labelHeight, item.pos[1]);
+                tempVec.project(camera);
+                const x = (tempVec.x * 0.5 + 0.5) * width;
+                const y = (-(tempVec.y * 0.5) + 0.5) * height;
+                const el = labelElements[item.id];
+                if (tempVec.z > 1) {
+                    el.style.display = 'none';
+                } else {
+                    el.style.display = 'block';
+                    el.style.left = `${x}px`;
+                    el.style.top = `${y}px`;
+                }
+            });
+        }
+
+        // Render Loop
+        const clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const elapsed = clock.getElapsedTime();
+
+            if (autoRotate) {
+                targetSpherical.theta += 0.002;
+            }
+
+            // Smooth Camera Interpolation
+            spherical.radius += (targetSpherical.radius - spherical.radius) * 0.08;
+            spherical.theta += (targetSpherical.theta - spherical.theta) * 0.1;
+            spherical.phi += (targetSpherical.phi - spherical.phi) * 0.1;
+            currentLookAt.lerp(targetLookAt, 0.08);
+
+            camera.position.x = currentLookAt.x + spherical.radius * Math.sin(spherical.phi) * Math.sin(spherical.theta);
+            camera.position.y = currentLookAt.y + spherical.radius * Math.cos(spherical.phi);
+            camera.position.z = currentLookAt.z + spherical.radius * Math.sin(spherical.phi) * Math.cos(spherical.theta);
+            camera.lookAt(currentLookAt);
+
+            rings.forEach(r => {
+                if (r.material.opacity > 0.5) {
+                    const pulse = 1.05 + Math.sin(elapsed * 4) * 0.06;
+                    r.scale.setScalar(pulse);
+                } else {
+                    r.scale.setScalar(1);
+                }
+            });
+
+            updateLabels();
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
