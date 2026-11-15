@@ -1,0 +1,2034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sardarshahar City Guide</title>
+<style>
+  /* ============ THEME VARIABLES ============ */
+  :root,
+  [data-theme="green"] {
+    --bg: #0f1a14;
+    --surface: #16241c;
+    --surface-2: #1d2f25;
+    --border: #2a3f33;
+    --text: #e8f0ea;
+    --text-dim: #9db3a5;
+    --accent: #2ecc71;
+    --accent-dark: #27ae60;
+    --accent-soft: rgba(46, 204, 113, 0.12);
+    --accent-contrast: #0f1a14;
+    --warn: #f39c12;
+    --danger: #e74c3c;
+    --info: #3498db;
+    --whatsapp: #25d366;
+    --header-gradient: linear-gradient(135deg, #0f1a14 0%, #1a3a28 60%, #0f1a14 100%);
+    --shadow: 0 6px 20px rgba(0,0,0,0.35);
+    --overlay: rgba(0,0,0,0.85);
+  }
+
+  [data-theme="light"] {
+    --bg: #f5f5f5;
+    --surface: #ffffff;
+    --surface-2: #f0f0f0;
+    --border: #e0e0e0;
+    --text: #222222;
+    --text-dim: #666666;
+    --accent: #c0392b;
+    --accent-dark: #a93226;
+    --accent-soft: #fdf0e6;
+    --accent-contrast: #ffffff;
+    --warn: #e67e22;
+    --danger: #c0392b;
+    --info: #2980b9;
+    --whatsapp: #25d366;
+    --header-gradient: linear-gradient(135deg, #c0392b, #e67e22);
+    --shadow: 0 4px 14px rgba(0,0,0,0.12);
+    --overlay: rgba(0,0,0,0.85);
+  }
+
+  [data-theme="dark"] {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface-2: #1f262e;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-dim: #8b949e;
+    --accent: #58a6ff;
+    --accent-dark: #388bfd;
+    --accent-soft: rgba(88, 166, 255, 0.12);
+    --accent-contrast: #0d1117;
+    --warn: #d29922;
+    --danger: #f85149;
+    --info: #58a6ff;
+    --whatsapp: #25d366;
+    --header-gradient: linear-gradient(135deg, #0d1117 0%, #1a2942 60%, #0d1117 100%);
+    --shadow: 0 6px 20px rgba(0,0,0,0.45);
+    --overlay: rgba(0,0,0,0.88);
+  }
+
+  /* ============ BASE ============ */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.25s, color 0.25s;
+    overflow-x: hidden;
+  }
+  a { color: var(--accent); }
+
+  /* ============ TOP BAR ============ */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    transition: background 0.25s, border-color 0.25s;
+  }
+  .topbar-inner {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    height: 56px;
+    gap: 8px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 700;
+    font-size: 15px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .brand .brand-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .brand .brand-text { display: none; }
+  @media (min-width: 480px) { .brand .brand-text { display: inline; } }
+
+  .desktop-nav {
+    display: none;
+    flex: 1;
+    min-width: 0;
+    align-items: center;
+    gap: 4px;
+    margin-left: 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    height: 100%;
+  }
+  .desktop-nav::-webkit-scrollbar { display: none; }
+  .desktop-nav a {
+    font-size: 13px;
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: 0.15s;
+    flex-shrink: 0;
+  }
+  .desktop-nav a:hover { color: var(--text); background: var(--surface-2); }
+  .desktop-nav a.active { color: var(--accent); background: var(--accent-soft); font-weight: 600; }
+
+  @media (min-width: 900px) {
+    .desktop-nav { display: flex; }
+    .hamburger { display: none !important; }
+  }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .theme-bar {
+    display: flex;
+    gap: 5px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px;
+  }
+  .theme-bar .swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.15s;
+    padding: 0;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .theme-bar .swatch:hover { transform: scale(1.1); }
+  .theme-bar .swatch.active {
+    border-color: var(--text);
+    box-shadow: 0 0 0 2px var(--surface-2), 0 0 0 3.5px var(--accent);
+  }
+  .swatch-green { background: linear-gradient(135deg, #0f1a14, #2ecc71); }
+  .swatch-light { background: linear-gradient(135deg, #c0392b, #e67e22); }
+  .swatch-dark  { background: linear-gradient(135deg, #0d1117, #58a6ff); }
+
+  .hamburger {
+    position: relative;
+    z-index: 1001;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 0;
+    transition: 0.15s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .hamburger span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: transform 0.25s, opacity 0.2s;
+    pointer-events: none;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  /* Mobile menu: no max-height transition trap — JS sets inline height */
+  .mobile-menu {
+    display: block;
+    max-height: 0;
+    overflow: hidden;
+    background: var(--surface);
+    border-top: 1px solid transparent;
+    transition: max-height 0.3s ease, border-top-color 0.2s;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mobile-menu.open {
+    overflow-y: auto;
+    border-top-color: var(--border);
+  }
+  @media (min-width: 900px) {
+    .mobile-menu {
+      display: none !important;
+      max-height: none !important;
+    }
+  }
+  .mobile-menu-inner {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 8px 12px 14px;
+    display: flex;
+    flex-direction: column;
+  }
+  .mobile-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 14px;
+    transition: 0.15s;
+    border-bottom: 1px solid var(--border);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu a:hover,
+  .mobile-menu a.active { background: var(--accent-soft); color: var(--accent); }
+  .mobile-menu a .mi-icon { font-size: 16px; width: 22px; text-align: center; }
+
+  /* ============ HEADER ============ */
+  header.hero {
+    background: var(--header-gradient);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 16px 26px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.25s;
+  }
+  header.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, var(--accent-soft), transparent 60%);
+    pointer-events: none;
+  }
+  header.hero h1 {
+    font-size: 26px;
+    margin-bottom: 4px;
+    letter-spacing: 0.3px;
+    position: relative;
+    z-index: 1;
+    color: var(--text);
+  }
+  [data-theme="light"] header.hero h1,
+  [data-theme="light"] header.hero p { color: #ffffff; }
+  header.hero p { font-size: 13px; color: var(--text-dim); position: relative; z-index: 1; }
+  .weather-badge {
+    display: inline-block;
+    margin-top: 10px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  [data-theme="light"] .weather-badge {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.4);
+    color: #ffffff;
+  }
+
+  /* ============ SEARCH ============ */
+  .search-wrap {
+    max-width: 640px;
+    margin: -18px auto 0;
+    padding: 0 16px;
+    position: relative;
+    z-index: 2;
+  }
+  #searchInput {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 15px;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: var(--shadow);
+    outline: none;
+    transition: border-color 0.15s, background 0.25s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  #searchInput::placeholder { color: var(--text-dim); }
+  #searchInput:focus { border-color: var(--accent); }
+
+  /* ============ SECTIONS ============ */
+  .section {
+    max-width: 760px;
+    margin: 32px auto 0;
+    padding: 0 16px;
+    scroll-margin-top: 70px;
+  }
+  .section h2 {
+    font-size: 18px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text);
+    font-weight: 600;
+  }
+  .section h2::before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 18px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  /* ============ EMERGENCY ============ */
+  .emergency {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+  }
+  .emergency a { text-decoration: none; }
+  .emg-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+    transition: 0.15s;
+  }
+  .emg-card:hover { border-color: var(--danger); transform: translateY(-2px); }
+  .emg-card .num { font-size: 20px; font-weight: 700; color: var(--danger); }
+  .emg-card .label { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+
+  /* ============ CHIPS ============ */
+  .categories { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .chip {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-dim);
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.15s;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--text); }
+  .chip.active {
+    background: var(--accent);
+    color: var(--accent-contrast);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ============ GRID + CARDS ============ */
+  .grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 600px) { .grid { grid-template-columns: 1fr 1fr; } }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: 0.15s;
+  }
+  .card:hover { border-color: var(--accent); box-shadow: var(--shadow); }
+  .card .icon { font-size: 18px; margin-right: 6px; }
+  .card h3 { font-size: 16px; margin-bottom: 6px; display: flex; align-items: center; color: var(--text); }
+  .card .cat-tag {
+    display: inline-block;
+    font-size: 11px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+  }
+  .card p { font-size: 13px; color: var(--text-dim); margin-bottom: 3px; }
+  .card .actions { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .card .actions a {
+    font-size: 12px;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: var(--accent-contrast);
+    font-weight: 600;
+  }
+  .card .actions a.secondary {
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  /* ============ NOTICES ============ */
+  .notice-list {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .notice-item {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    border-left: 3px solid var(--warn);
+  }
+  .notice-item:last-child { border-bottom: none; }
+  .notice-item .date { font-size: 11px; color: var(--text-dim); display: block; margin-top: 3px; }
+
+  /* ============ JOBS ============ */
+  .job-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--info);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .job-item h3 { font-size: 15px; margin-bottom: 4px; color: var(--text); }
+  .job-item p { font-size: 13px; color: var(--text-dim); }
+  .job-item .tag {
+    display: inline-block;
+    font-size: 11px;
+    background: var(--accent-soft);
+    color: var(--info);
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-top: 6px;
+  }
+
+  /* ============ EVENTS ============ */
+  .event-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  .event-date {
+    background: var(--accent);
+    color: var(--accent-contrast);
+    border-radius: 10px;
+    padding: 8px 12px;
+    text-align: center;
+    min-width: 56px;
+  }
+  .event-date .day { font-size: 20px; font-weight: 700; line-height: 1; }
+  .event-date .month { font-size: 11px; text-transform: uppercase; font-weight: 600; }
+  .event-item h3 { font-size: 15px; margin-bottom: 3px; color: var(--text); }
+  .event-item p { font-size: 13px; color: var(--text-dim); }
+
+  /* ============ TRANSPORT TABLE ============ */
+  .tt-table {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .tt-table th {
+    background: var(--surface-2);
+    color: var(--accent);
+    text-align: left;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+  .tt-table td { padding: 10px 12px; border-top: 1px solid var(--border); color: var(--text-dim); }
+
+  /* ============ RENTALS ============ */
+  .rent-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .rent-item h3 { font-size: 15px; margin-bottom: 4px; color: var(--text); }
+  .rent-item p { font-size: 13px; color: var(--text-dim); }
+  .rent-item .price { display: inline-block; font-size: 13px; font-weight: 700; color: var(--accent); margin-top: 6px; }
+
+  /* ============ LOST & FOUND ============ */
+  .lf-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .lf-icon { font-size: 22px; }
+  .lf-item h3 { font-size: 14px; margin-bottom: 3px; color: var(--text); }
+  .lf-item p { font-size: 12px; color: var(--text-dim); }
+  .lf-item .tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-top: 5px;
+    font-weight: 600;
+  }
+  .tag-lost { background: rgba(231,76,60,0.15); color: var(--danger); }
+  .tag-found { background: var(--accent-soft); color: var(--accent); }
+
+  /* ============ EXPLORE CITY ============ */
+  .explore-hero {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 14px;
+    border: 1px solid var(--border);
+    aspect-ratio: 16 / 9;
+    background: var(--surface-2);
+  }
+  .explore-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .explore-hero .hero-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--surface-2), var(--surface));
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 600;
+    gap: 6px;
+  }
+  .explore-hero .hero-fallback span { font-size: 36px; }
+  .explore-hero .hero-caption {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 22px 18px 14px;
+    background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+    color: #fff;
+  }
+  .explore-hero .hero-caption h3 { font-size: 18px; margin-bottom: 2px; }
+  .explore-hero .hero-caption p { font-size: 12px; opacity: 0.85; }
+
+  .explore-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .explore-filters .chip { font-size: 12px; padding: 6px 14px; }
+
+  .explore-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  @media (min-width: 600px) {
+    .explore-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+  }
+
+  .explore-tile {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    cursor: pointer;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .explore-tile:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+  }
+  .explore-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s;
+  }
+  .explore-tile:hover img { transform: scale(1.06); }
+  .explore-tile .tile-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    padding: 10px;
+  }
+  .explore-tile .tile-label {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 16px 10px 8px;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .explore-tile .tile-cat {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: var(--accent);
+    color: var(--accent-contrast);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .lightbox.open { display: flex; }
+  .lightbox .lb-inner {
+    max-width: 900px;
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    position: relative;
+  }
+  .lightbox .lb-img {
+    width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+    background: #000;
+    display: block;
+  }
+  .lightbox .lb-fallback {
+    width: 100%;
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-2);
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .lightbox .lb-caption { padding: 14px 18px; }
+  .lightbox .lb-caption h3 { font-size: 16px; margin-bottom: 2px; color: var(--text); }
+  .lightbox .lb-caption p { font-size: 12px; color: var(--text-dim); }
+  .lightbox .lb-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+  }
+  .lightbox .lb-close:hover { background: var(--danger); }
+  .lightbox .lb-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+  }
+  .lightbox .lb-nav:hover { background: var(--accent); color: var(--accent-contrast); }
+  .lightbox .lb-prev { left: 10px; }
+  .lightbox .lb-next { right: 10px; }
+
+  /* ============ LOCAL STORES ============ */
+  .stores-toolbar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+    align-items: center;
+  }
+  .stores-toolbar input {
+    flex: 1;
+    min-width: 180px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .stores-toolbar input::placeholder { color: var(--text-dim); }
+  .stores-toolbar input:focus { border-color: var(--accent); }
+
+  .store-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  @media (min-width: 600px) {
+    .store-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .store-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    transition: 0.15s;
+    display: flex;
+    flex-direction: column;
+  }
+  .store-card:hover { border-color: var(--accent); box-shadow: var(--shadow); }
+
+  .store-top {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .store-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .store-info h3 {
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 2px;
+    line-height: 1.3;
+  }
+  .store-info .owner {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .store-info .store-tag {
+    display: inline-block;
+    font-size: 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 1px 8px;
+    border-radius: 10px;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  .store-details {
+    font-size: 12.5px;
+    color: var(--text-dim);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-bottom: 10px;
+  }
+  .store-details .row { display: flex; gap: 6px; align-items: flex-start; }
+  .store-details .row .k { color: var(--text-dim); opacity: 0.75; min-width: 46px; }
+  .store-details .row .v { color: var(--text); word-break: break-word; }
+
+  .store-specialty {
+    font-size: 12px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .store-specialty strong { color: var(--accent); }
+
+  .store-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: auto;
+  }
+  .store-actions a {
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: 0.15s;
+    touch-action: manipulation;
+  }
+  .store-actions .btn-call {
+    background: var(--accent);
+    color: var(--accent-contrast);
+  }
+  .store-actions .btn-call:hover { background: var(--accent-dark); }
+  .store-actions .btn-wa {
+    background: var(--whatsapp);
+    color: #fff;
+  }
+  .store-actions .btn-wa:hover { filter: brightness(0.92); }
+  .store-actions .btn-map {
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .store-actions .btn-map:hover { border-color: var(--accent); color: var(--accent); }
+
+  .store-empty {
+    text-align: center;
+    padding: 30px 16px;
+    color: var(--text-dim);
+    font-size: 14px;
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+  }
+
+  /* ============ CONTACT SECTION ============ */
+  .contact-intro {
+    font-size: 14px;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+
+  .contact-channels {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .contact-channel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 12px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text);
+    transition: 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .contact-channel:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .contact-channel .ch-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .contact-channel.ch-wa .ch-icon { background: rgba(37,211,102,0.15); color: var(--whatsapp); }
+  .contact-channel.ch-mail .ch-icon { background: rgba(52,152,219,0.15); color: var(--info); }
+  .contact-channel .ch-label { font-size: 13px; font-weight: 600; }
+  .contact-channel .ch-value { font-size: 11px; color: var(--text-dim); word-break: break-all; }
+
+  .contact-form {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .contact-form h3 {
+    font-size: 15px;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+  .contact-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  @media (min-width: 560px) {
+    .contact-form .form-row.two { grid-template-columns: 1fr 1fr; }
+  }
+  .contact-form label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--text-dim);
+  }
+  .contact-form input,
+  .contact-form select,
+  .contact-form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 16px; /* 16px prevents iOS zoom on focus */
+    font-family: inherit;
+    outline: none;
+    background: var(--surface-2);
+    color: var(--text);
+    transition: border-color 0.15s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: var(--text-dim); }
+  .contact-form input:focus,
+  .contact-form select:focus,
+  .contact-form textarea:focus { border-color: var(--accent); }
+
+  .contact-form .form-field { margin-bottom: 12px; }
+
+  .contact-form button {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent);
+    color: var(--accent-contrast);
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.15s;
+    margin-top: 4px;
+    touch-action: manipulation;
+  }
+  .contact-form button:hover { background: var(--accent-dark); }
+
+  .contact-note {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  /* ============ QUICK LINKS ============ */
+  .quick-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+  .quick-links a {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 13px;
+    transition: 0.15s;
+  }
+  .quick-links a:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ============ SUBMIT FORM ============ */
+  .submit-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+  }
+  .submit-box label { display: block; font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--text-dim); }
+  .submit-box input, .submit-box select, .submit-box textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    outline: none;
+    background: var(--surface-2);
+    color: var(--text);
+    transition: border-color 0.15s, background 0.25s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .submit-box input::placeholder, .submit-box textarea::placeholder { color: var(--text-dim); }
+  .submit-box input:focus, .submit-box select:focus, .submit-box textarea:focus { border-color: var(--accent); }
+  .submit-box button {
+    margin-top: 14px;
+    width: 100%;
+    padding: 12px;
+    background: var(--accent);
+    color: var(--accent-contrast);
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.15s;
+    touch-action: manipulation;
+  }
+  .submit-box button:hover { background: var(--accent-dark); }
+
+  .empty { text-align: center; padding: 40px 16px; color: var(--text-dim); font-size: 14px; }
+
+  footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-dim);
+    padding: 30px 20px;
+    margin-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR WITH MENU -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="#top" class="brand">
+      <span class="brand-icon">🏙️</span>
+      <span class="brand-text">Sardarshahar</span>
+    </a>
+
+    <nav class="desktop-nav" id="desktopNav" aria-label="Main navigation">
+      <a href="#explore" data-nav>Explore</a>
+      <a href="#stores" data-nav>Stores</a>
+      <a href="#contact" data-nav>Contact</a>
+      <a href="#emergency" data-nav>Emergency</a>
+      <a href="#places" data-nav>Places</a>
+      <a href="#transport" data-nav>Transport</a>
+      <a href="#notices" data-nav>Notices</a>
+      <a href="#jobs" data-nav>Jobs</a>
+      <a href="#education" data-nav>Education</a>
+      <a href="#rentals" data-nav>Rentals</a>
+      <a href="#events" data-nav>Events</a>
+      <a href="#quicklinks" data-nav>Links</a>
+    </nav>
+
+    <div class="topbar-right">
+      <div class="theme-bar" role="group" aria-label="Choose color theme">
+        <button type="button" class="swatch swatch-green" data-set-theme="green" title="Green theme" aria-label="Green theme"></button>
+        <button type="button" class="swatch swatch-light" data-set-theme="light" title="Light theme" aria-label="Light theme"></button>
+        <button type="button" class="swatch swatch-dark" data-set-theme="dark" title="Dark blue theme" aria-label="Dark blue theme"></button>
+      </div>
+      <button type="button" class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-inner">
+      <a href="#explore"><span class="mi-icon">🧭</span>Explore City</a>
+      <a href="#stores"><span class="mi-icon">🏪</span>Local Stores</a>
+      <a href="#contact"><span class="mi-icon">✉️</span>Contact Us</a>
+      <a href="#emergency"><span class="mi-icon">🚨</span>Emergency</a>
+      <a href="#places"><span class="mi-icon">📍</span>Places</a>
+      <a href="#transport"><span class="mi-icon">🚌</span>Transport</a>
+      <a href="#notices"><span class="mi-icon">📢</span>Notices</a>
+      <a href="#jobs"><span class="mi-icon">💼</span>Jobs</a>
+      <a href="#education"><span class="mi-icon">🎓</span>Education</a>
+      <a href="#rentals"><span class="mi-icon">🏠</span>Rentals</a>
+      <a href="#deals"><span class="mi-icon">🛒</span>Deals</a>
+      <a href="#pharmacies"><span class="mi-icon">💊</span>Pharmacies</a>
+      <a href="#lostfound"><span class="mi-icon">🔍</span>Lost & Found</a>
+      <a href="#events"><span class="mi-icon">🎉</span>Events</a>
+      <a href="#quicklinks"><span class="mi-icon">🔗</span>Quick Links</a>
+      <a href="#addplace"><span class="mi-icon">➕</span>Add a Place</a>
+    </div>
+  </div>
+</div>
+
+<header class="hero" id="top">
+  <h1>Sardarshahar City Guide</h1>
+  <p>Everything local — offices, hospitals, banks, temples, stores & more</p>
+  <div class="weather-badge">☀️ Sardarshahar · 28°C · Clear</div>
+</header>
+
+<div class="search-wrap">
+  <input id="searchInput" type="search" placeholder="Search places, stores, jobs (e.g., hospital, Sharma, delivery)..." />
+</div>
+
+<div class="section" id="explore">
+  <h2>🧭 Explore City</h2>
+  <div class="explore-hero" id="exploreHero"></div>
+  <div class="explore-filters" id="exploreFilters"></div>
+  <div class="explore-grid" id="exploreGrid"></div>
+</div>
+
+<div class="section" id="stores">
+  <h2>🏪 Local Stores & Contacts</h2>
+  <div class="stores-toolbar">
+    <input id="storeSearch" type="text" placeholder="Search store, owner, area or specialty..." />
+  </div>
+  <div class="categories" id="storeCategories" style="margin-bottom:14px;"></div>
+  <div class="store-grid" id="storeGrid"></div>
+</div>
+
+<div class="section" id="contact">
+  <h2>✉️ Contact Us</h2>
+  <p class="contact-intro">
+    Have a question, want to add your shop, report wrong information, or suggest a new section?
+    Reach out through any of the channels below — we usually reply within a day.
+  </p>
+  <div class="contact-channels" id="contactChannels"></div>
+  <div class="contact-form">
+    <h3>Send us a message</h3>
+    <form id="contactForm">
+      <div class="form-row two">
+        <div class="form-field">
+          <label for="cName">Your Name</label>
+          <input id="cName" name="name" type="text" required placeholder="e.g., Ramesh Kumar" />
+        </div>
+        <div class="form-field">
+          <label for="cPhone">Phone / WhatsApp (optional)</label>
+          <input id="cPhone" name="phone" type="tel" placeholder="e.g., 9876543210" />
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="cEmail">Your Email (optional)</label>
+        <input id="cEmail" name="email" type="email" placeholder="you@example.com" />
+      </div>
+      <div class="form-field">
+        <label for="cSubject">Subject</label>
+        <select id="cSubject" name="subject" required>
+          <option value="">Choose a topic</option>
+          <option>Add my shop / business</option>
+          <option>Report wrong information</option>
+          <option>Suggest a new section</option>
+          <option>Website issue / bug</option>
+          <option>Advertising / partnership</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="cMessage">Message</label>
+        <textarea id="cMessage" name="message" rows="4" required placeholder="Write your message here..."></textarea>
+      </div>
+      <button type="submit">Send Message</button>
+      <p class="contact-note">This opens your email app with the message pre-filled. Nothing is sent automatically.</p>
+    </form>
+  </div>
+</div>
+
+<div class="section" id="emergency">
+  <h2>🚨 Emergency Numbers</h2>
+  <div class="emergency">
+    <a href="tel:112"><div class="emg-card"><div class="num">112</div><div class="label">All Emergency</div></div></a>
+    <a href="tel:100"><div class="emg-card"><div class="num">100</div><div class="label">Police</div></div></a>
+    <a href="tel:108"><div class="emg-card"><div class="num">108</div><div class="label">Ambulance</div></div></a>
+    <a href="tel:101"><div class="emg-card"><div class="num">101</div><div class="label">Fire</div></div></a>
+    <a href="tel:1912"><div class="emg-card"><div class="num">1912</div><div class="label">Electricity</div></div></a>
+    <a href="tel:181"><div class="emg-card"><div class="num">181</div><div class="label">Women Helpline</div></div></a>
+  </div>
+</div>
+
+<div class="section" id="places">
+  <h2>📍 Places Directory</h2>
+  <div class="categories" id="categories"></div>
+  <div class="grid" id="grid" style="margin-top:14px;"></div>
+</div>
+
+<div class="section" id="transport">
+  <h2>🚌 Transport Timetable</h2>
+  <table class="tt-table">
+    <thead><tr><th>Route</th><th>From</th><th>Timing</th></tr></thead>
+    <tbody id="ttBody"></tbody>
+  </table>
+</div>
+
+<div class="section" id="notices">
+  <h2>📢 Notices & Updates</h2>
+  <div class="notice-list" id="noticeList"></div>
+</div>
+
+<div class="section" id="jobs">
+  <h2>💼 Local Jobs</h2>
+  <div id="jobList"></div>
+</div>
+
+<div class="section" id="education">
+  <h2>🎓 Education & Coaching</h2>
+  <div class="grid" id="eduList"></div>
+</div>
+
+<div class="section" id="rentals">
+  <h2>🏠 Rentals & Property</h2>
+  <div id="rentList"></div>
+</div>
+
+<div class="section" id="deals">
+  <h2>🛒 Shopping Deals</h2>
+  <div class="grid" id="dealList"></div>
+</div>
+
+<div class="section" id="pharmacies">
+  <h2>💊 Pharmacies & Health</h2>
+  <div class="grid" id="pharmList"></div>
+</div>
+
+<div class="section" id="lostfound">
+  <h2>🔍 Lost & Found</h2>
+  <div id="lfList"></div>
+</div>
+
+<div class="section" id="events">
+  <h2>🎉 Upcoming Events</h2>
+  <div id="eventList"></div>
+</div>
+
+<div class="section" id="quicklinks">
+  <h2>🔗 Quick Links</h2>
+  <div class="quick-links" id="quickLinks"></div>
+</div>
+
+<div class="section" id="addplace">
+  <h2>➕ Add a Place</h2>
+  <div class="submit-box">
+    <form id="submitForm">
+      <label>Place Name</label>
+      <input type="text" name="name" required placeholder="e.g., City Hospital" />
+      <label>Category</label>
+      <select name="category" required>
+        <option value="">Select category</option>
+        <option>Temples</option>
+        <option>Government Offices</option>
+        <option>Hospitals</option>
+        <option>Banks / ATMs</option>
+        <option>Transport</option>
+        <option>Education</option>
+        <option>Landmarks</option>
+        <option>Shopping / Markets</option>
+        <option>Restaurants / Food</option>
+        <option>Pharmacies</option>
+      </select>
+      <label>Address</label>
+      <input type="text" name="address" required placeholder="Street / area" />
+      <label>Phone (optional)</label>
+      <input type="text" name="phone" placeholder="Phone number" />
+      <label>Hours (optional)</label>
+      <input type="text" name="hours" placeholder="e.g., 10 AM – 5 PM" />
+      <label>Note (optional)</label>
+      <textarea name="note" rows="2" placeholder="Anything useful to know"></textarea>
+      <button type="submit">Submit Place</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  Sardarshahar City Guide · Built for the people of Sardarshahar<br/>
+  <span id="year"></span>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <div class="lb-inner">
+    <button class="lb-close" id="lbClose" aria-label="Close">×</button>
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous">‹</button>
+    <button class="lb-nav lb-next" id="lbNext" aria-label="Next">›</button>
+    <div id="lbMedia"></div>
+    <div class="lb-caption">
+      <h3 id="lbTitle"></h3>
+      <p id="lbDesc"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ============================================================
+     THEME PICKER
+     ============================================================ */
+  var THEME_KEY = "ssg-theme";
+  var htmlEl = document.documentElement;
+  var themeButtons = document.querySelectorAll("[data-set-theme]");
+
+  function applyTheme(name) {
+    htmlEl.setAttribute("data-theme", name);
+    themeButtons.forEach(function (b) {
+      b.classList.toggle("active", b.getAttribute("data-set-theme") === name);
+    });
+    try { localStorage.setItem(THEME_KEY, name); } catch (e) {}
+  }
+  themeButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      applyTheme(btn.getAttribute("data-set-theme"));
+    });
+  });
+  (function initTheme() {
+    var saved = null;
+    try { saved = localStorage.getItem(THEME_KEY); } catch (e) {}
+    var valid = ["green", "light", "dark"];
+    applyTheme(saved && valid.indexOf(saved) !== -1 ? saved : "green");
+  })();
+
+  /* ============================================================
+     DATA
+     ============================================================ */
+  var exploreItems = [
+    { title: "Clock Tower", desc: "The historic Ghanta Ghar at the city center — one of the few towers in Asia with roads passing beneath in all four directions.", cat: "Landmarks", img: "" },
+    { title: "Main Market", desc: "The bustling heart of Sardarshahar — shops, sweets, and daily life.", cat: "Markets", img: "" },
+    { title: "Ichchhapuran Balaji Mandir", desc: "Hanuman temple on Ratangarh Road, a local pilgrimage spot.", cat: "Temples", img: "" },
+    { title: "Havelis of Sardarshahar", desc: "Traditional painted havelis reflecting the region's architecture.", cat: "Heritage", img: "" },
+    { title: "Bus Stand", desc: "The RSRTC bus depot connecting the city to Churu, Jaipur, and Bikaner.", cat: "Transport", img: "" },
+    { title: "City Streets", desc: "Everyday life in the lanes of Sardarshahar.", cat: "City Life", img: "" },
+    { title: "Acharya Mahapragya Samadhi Sthal", desc: "A Jain pilgrimage site at ShantiPeeth.", cat: "Temples", img: "" },
+    { title: "Local Sweets — Feeni & Mangodi", desc: "Famous local specialties found in the main bazaar.", cat: "Food", img: "" }
+  ];
+
+  var stores = [
+    { name: "Sharma General Store", owner: "Rakesh Sharma", category: "Grocery", phone: "9876543210", wa: "919876543210", address: "Main Market, near Clock Tower", hours: "8 AM – 9 PM (Mon–Sun)", specialty: "Daily groceries, packaged food, home delivery within city", icon: "🛒" },
+    { name: "Jain Cloth House", owner: "Suresh Jain", category: "Clothing", phone: "9876543211", wa: "919876543211", address: "Sadar Bazaar, Main Market", hours: "10 AM – 8:30 PM", specialty: "Sarees, suits, and school uniforms. Bulk discount available", icon: "👕" },
+    { name: "Balaji Mobile & Accessories", owner: "Manoj Kumar", category: "Electronics", phone: "9876543212", wa: "919876543212", address: "Bus Stand Road", hours: "9:30 AM – 8 PM", specialty: "Mobile phones, covers, chargers, and SIM activation", icon: "📱" },
+    { name: "Gupta Sweets & Namkeen", owner: "Ashok Gupta", category: "Food", phone: "9876543213", wa: "919876543213", address: "Near Ghanta Ghar, City Center", hours: "7 AM – 10 PM", specialty: "Feeni, mangodi, papad, and fresh namkeen", icon: "🍬" },
+    { name: "Sardarshahar Hardware", owner: "Vijay Verma", category: "Hardware", phone: "9876543214", wa: "919876543214", address: "Ratangarh Road", hours: "9 AM – 7 PM", specialty: "Paint, pipes, tools, and construction material", icon: "🔧" },
+    { name: "Jai Bharat Medical Store", owner: "Dr. Anil Jain", category: "Pharmacy", phone: "9876543215", wa: "919876543215", address: "Hospital Road", hours: "8 AM – 10 PM", specialty: "All medicines, first aid, and health supplements", icon: "💊" }
+  ];
+
+  var storeCatIcons = {
+    "Grocery": "🛒", "Clothing": "👕", "Electronics": "📱",
+    "Food": "🍬", "Hardware": "🔧", "Pharmacy": "💊", "Other": "🏪"
+  };
+
+  var places = [
+    { name: "Ichchhapuran Balaji Mandir", category: "Temples", address: "Ratangarh Road (SH 7)", phone: "", hours: "5:00 AM – 10:00 PM", note: "Hanuman temple, ~12 km from railway station" },
+    { name: "Clock Tower (Ghanta Ghar)", category: "Landmarks", address: "City Center", phone: "", hours: "Open all day", note: "Historic tower; roads pass beneath in four directions" },
+    { name: "Acharya Mahapragya Samadhi Sthal", category: "Temples", address: "ShantiPeeth", phone: "", hours: "Check locally", note: "Jain pilgrimage site" },
+    { name: "Nagar Palika Sardarshahar", category: "Government Offices", address: "Municipal Council area", phone: "", hours: "10:00 AM – 5:00 PM (Mon–Sat)", note: "Municipal services, property tax, certificates" },
+    { name: "Tehsildar Office", category: "Government Offices", address: "Sardarshahar Tehsil", phone: "", hours: "10:00 AM – 5:00 PM", note: "Land records, revenue matters" },
+    { name: "Police Station (Kotwali)", category: "Government Offices", address: "Sardarshahar", phone: "100", hours: "24 hours", note: "Emergency: 100 / 112" },
+    { name: "Government District Hospital", category: "Hospitals", address: "Sardarshahar", phone: "", hours: "24 hours (emergency)", note: "Main government hospital" },
+    { name: "Sardarshahar Railway Station", category: "Transport", address: "Sardarshahar", phone: "", hours: "As per train schedule", note: "Connects via Ratangarh" },
+    { name: "RSRTC Bus Depot", category: "Transport", address: "Sardarshahar", phone: "", hours: "Early morning – night", note: "State bus services" },
+    { name: "SBI Branch / ATM", category: "Banks / ATMs", address: "Main Market", phone: "", hours: "10:00 AM – 4:00 PM", note: "ATM available" },
+    { name: "IASE University", category: "Education", address: "Sardarshahar", phone: "", hours: "Office hours", note: "Institute of Advanced Studies in Education" },
+    { name: "Main Sabzi Mandi", category: "Shopping / Markets", address: "Mandi area", phone: "", hours: "Morning – evening", note: "Fresh vegetables & fruits" },
+    { name: "Local Sweet Shop (Feeni/Mangodi)", category: "Restaurants / Food", address: "Main Market", phone: "", hours: "9 AM – 9 PM", note: "Famous local sweets and snacks" }
+  ];
+
+  var transport = [
+    { route: "Sardarshahar → Ratangarh", from: "Bus Depot", timing: "Every 30 min, 6 AM – 8 PM" },
+    { route: "Sardarshahar → Churu", from: "Bus Depot", timing: "Hourly, 7 AM – 7 PM" },
+    { route: "Sardarshahar → Jaipur", from: "Bus Depot", timing: "6:00 AM, 2:00 PM" },
+    { route: "Sardarshahar → Bikaner", from: "Bus Depot", timing: "7:30 AM, 1:00 PM" },
+    { route: "Local Train (via Ratangarh)", from: "Railway Station", timing: "Check IRCTC" }
+  ];
+
+  var notices = [
+    { text: "Road repair work on Ratangarh Road — expect delays this week.", date: "Today" },
+    { text: "Power maintenance in Ward 5 on Sunday, 6 AM – 12 PM.", date: "2 days ago" },
+    { text: "Water supply interruption in some areas due to pipeline work.", date: "3 days ago" },
+    { text: "Municipal office closed on public holiday.", date: "5 days ago" }
+  ];
+
+  var jobs = [
+    { title: "Shop Assistant", place: "Main Market", type: "Full-time", desc: "Local retail shop needs a helper. Hindi speaking preferred." },
+    { title: "Tuition Teacher (Maths)", place: "Near IASE University", type: "Part-time", desc: "Classes 8–10. Evening hours." },
+    { title: "Delivery Rider", place: "Citywide", type: "Full-time", desc: "Own two-wheeler required. Fuel allowance provided." }
+  ];
+
+  var education = [
+    { name: "IASE University", type: "University", address: "Sardarshahar", note: "Higher education & research" },
+    { name: "Govt. Sr. Sec. School", type: "School", address: "City area", note: "Classes 6–12" },
+    { name: "Private Coaching Center", type: "Coaching", address: "Near Main Market", note: "Maths, Science, English" },
+    { name: "Computer Training Institute", type: "Coaching", address: "Market area", note: "Basic computer & typing" }
+  ];
+
+  var rentals = [
+    { title: "2BHK House for Rent", area: "Near Main Market", price: "₹4,500 / month", desc: "Family preferred. Water & electricity available." },
+    { title: "1 Room Shop for Rent", area: "Bus Stand Road", price: "₹3,000 / month", desc: "Good footfall. Suitable for small business." },
+    { title: "PG Room for Students", area: "Near IASE University", price: "₹2,000 / month", desc: "Boys only. Meals optional." }
+  ];
+
+  var deals = [
+    { name: "Cloth Shop — Winter Sale", category: "Shopping / Markets", note: "20% off on sweaters & blankets", hours: "10 AM – 8 PM" },
+    { name: "Sweet Shop — Festival Offer", category: "Restaurants / Food", note: "Feeni & Mangodi bulk discount", hours: "9 AM – 9 PM" },
+    { name: "Mobile Shop — Accessories", category: "Shopping / Markets", note: "Covers & chargers starting ₹99", hours: "10 AM – 8 PM" }
+  ];
+
+  var pharmacies = [
+    { name: "Jan Aushadhi Kendra", address: "Near Hospital", hours: "8 AM – 8 PM", note: "Generic medicines at low cost" },
+    { name: "Main Medical Store", address: "Main Market", hours: "9 AM – 9 PM", note: "All common medicines" },
+    { name: "24-Hour Pharmacy", address: "Hospital Road", hours: "24 hours", note: "Emergency medicines" }
+  ];
+
+  var lostFound = [
+    { type: "lost", title: "Lost: Black Wallet", desc: "Near bus stand, contains ID card. Please contact if found.", date: "Today" },
+    { type: "found", title: "Found: Key Ring", desc: "Found near clock tower. Contact to claim.", date: "Yesterday" },
+    { type: "lost", title: "Lost: School Bag", desc: "Blue bag with books, near main market.", date: "2 days ago" }
+  ];
+
+  var events = [
+    { day: "15", month: "Dec", title: "Local Market Fair", desc: "Handicrafts, sweets and clothes stalls at the main bazaar." },
+    { day: "22", month: "Dec", title: "Temple Event (Balaji Mandir)", desc: "Special evening aarti and community gathering." },
+    { day: "01", month: "Jan", title: "New Year Community Meet", desc: "Local residents' gathering at the community hall." }
+  ];
+
+  var quickLinks = [
+    { label: "Rajasthan Govt Portal", url: "https://rajasthan.gov.in" },
+    { label: "IRCTC Train Booking", url: "https://www.irctc.co.in" },
+    { label: "RSRTC Bus Booking", url: "https://rsrtc.rajasthan.gov.in" },
+    { label: "Churu District Website", url: "https://churu.rajasthan.gov.in" },
+    { label: "India Post Tracking", url: "https://www.indiapost.gov.in" },
+    { label: "PM Kisan / Schemes", url: "https://www.india.gov.in" }
+  ];
+
+  var CONTACT = {
+    email: "hello@sardarshaharcity.example",
+    whatsapp: "919876543210",
+    phone: "+91 98765 43210",
+    facebook: "https://facebook.com/yourpage",
+    instagram: "https://instagram.com/yourpage",
+    youtube: "https://youtube.com/@yourchannel"
+  };
+
+  /* ============================================================
+     DOM REFS
+     ============================================================ */
+  var grid = document.getElementById("grid");
+  var catWrap = document.getElementById("categories");
+  var searchInput = document.getElementById("searchInput");
+  var storeGrid = document.getElementById("storeGrid");
+  var storeSearch = document.getElementById("storeSearch");
+  var storeCategoriesEl = document.getElementById("storeCategories");
+  var lightbox = document.getElementById("lightbox");
+  var heroEl = document.getElementById("exploreHero");
+  var exploreFilters = document.getElementById("exploreFilters");
+  var exploreGrid = document.getElementById("exploreGrid");
+
+  var iconMap = {
+    "Temples": "🛕", "Government Offices": "🏛️", "Hospitals": "🏥",
+    "Banks / ATMs": "🏦", "Transport": "🚌", "Education": "🏫",
+    "Landmarks": "📍", "Shopping / Markets": "🛒", "Restaurants / Food": "🍽️",
+    "Pharmacies": "💊"
+  };
+
+  /* ============================================================
+     PLACES
+     ============================================================ */
+  var categories = ["All"].concat(Array.from(new Set(places.map(function (p) { return p.category; }))));
+  var activeCat = "All";
+
+  function placeCardHTML(p) {
+    return '<div class="card">' +
+      '<span class="cat-tag">' + p.category + '</span>' +
+      '<h3><span class="icon">' + (iconMap[p.category] || "📍") + '</span>' + p.name + '</h3>' +
+      '<p>📌 ' + p.address + '</p>' +
+      (p.phone ? '<p>📞 ' + p.phone + '</p>' : '') +
+      (p.hours ? '<p>🕒 ' + p.hours + '</p>' : '') +
+      (p.note ? '<p>ℹ️ ' + p.note + '</p>' : '') +
+      '<div class="actions">' +
+        (p.phone ? '<a href="tel:' + p.phone + '">Call</a>' : '') +
+        '<a class="secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/' + encodeURIComponent(p.name + ' Sardarshahar') + '">Map</a>' +
+      '</div></div>';
+  }
+
+  function buildCategoryChips() {
+    catWrap.innerHTML = "";
+    categories.forEach(function (cat) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "chip" + (cat === activeCat ? " active" : "");
+      btn.textContent = cat;
+      btn.addEventListener("click", function () {
+        activeCat = cat;
+        buildCategoryChips();
+        renderPlaces();
+      });
+      catWrap.appendChild(btn);
+    });
+  }
+
+  function renderPlaces() {
+    var q = searchInput.value.trim().toLowerCase();
+    var filtered = places.filter(function (p) {
+      var matchCat = activeCat === "All" || p.category === activeCat;
+      var matchText = !q ||
+        p.name.toLowerCase().indexOf(q) !== -1 ||
+        p.address.toLowerCase().indexOf(q) !== -1 ||
+        p.category.toLowerCase().indexOf(q) !== -1 ||
+        (p.note && p.note.toLowerCase().indexOf(q) !== -1);
+      return matchCat && matchText;
+    });
+    grid.innerHTML = filtered.length
+      ? filtered.map(placeCardHTML).join("")
+      : '<div class="empty">No places match your search.</div>';
+  }
+
+  buildCategoryChips();
+  renderPlaces();
+
+  /* ============================================================
+     STORES
+     ============================================================ */
+  var activeStoreCat = "All";
+
+  function storeCardHTML(s) {
+    var waLink = s.wa
+      ? 'https://wa.me/' + s.wa + '?text=' + encodeURIComponent("Hello, I found your store on Sardarshahar City Guide. I have a question:")
+      : "";
+    var icon = s.icon || storeCatIcons[s.category] || "🏪";
+    return '<div class="store-card">' +
+      '<div class="store-top">' +
+        '<div class="store-avatar">' + icon + '</div>' +
+        '<div class="store-info">' +
+          '<h3>' + s.name + '</h3>' +
+          (s.owner ? '<div class="owner">👤 ' + s.owner + '</div>' : '') +
+          '<span class="store-tag">' + s.category + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="store-details">' +
+        (s.phone ? '<div class="row"><span class="k">Phone</span><span class="v">' + s.phone + '</span></div>' : '') +
+        '<div class="row"><span class="k">Address</span><span class="v">' + s.address + '</span></div>' +
+        (s.hours ? '<div class="row"><span class="k">Hours</span><span class="v">' + s.hours + '</span></div>' : '') +
+      '</div>' +
+      (s.specialty ? '<div class="store-specialty"><strong>Specialty:</strong> ' + s.specialty + '</div>' : '') +
+      '<div class="store-actions">' +
+        (s.phone ? '<a class="btn-call" href="tel:' + s.phone + '">📞 Call</a>' : '') +
+        (waLink ? '<a class="btn-wa" href="' + waLink + '" target="_blank" rel="noopener">💬 WhatsApp</a>' : '') +
+        '<a class="btn-map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/' + encodeURIComponent(s.name + ' Sardarshahar') + '">📍 Map</a>' +
+      '</div></div>';
+  }
+
+  function buildStoreCats() {
+    var cats = ["All"].concat(Array.from(new Set(stores.map(function (s) { return s.category; }))));
+    storeCategoriesEl.innerHTML = cats.map(function (c) {
+      return '<button type="button" class="chip' + (c === activeStoreCat ? ' active' : '') + '" data-cat="' + c + '">' + c + '</button>';
+    }).join("");
+    storeCategoriesEl.querySelectorAll(".chip").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        activeStoreCat = btn.getAttribute("data-cat");
+        buildStoreCats();
+        renderStores();
+      });
+    });
+  }
+
+  function renderStores() {
+    var q = storeSearch.value.trim().toLowerCase();
+    var filtered = stores.filter(function (s) {
+      var matchCat = activeStoreCat === "All" || s.category === activeStoreCat;
+      var matchText = !q ||
+        s.name.toLowerCase().indexOf(q) !== -1 ||
+        (s.owner && s.owner.toLowerCase().indexOf(q) !== -1) ||
+        s.address.toLowerCase().indexOf(q) !== -1 ||
+        s.category.toLowerCase().indexOf(q) !== -1 ||
+        (s.specialty && s.specialty.toLowerCase().indexOf(q) !== -1);
+      return matchCat && matchText;
+    });
+    storeGrid.innerHTML = filtered.length
+      ? filtered.map(storeCardHTML).join("")
+      : '<div class="store-empty">No stores found. Try a different search or category.</div>';
+  }
+
+  buildStoreCats();
+  renderStores();
+
+  /* ============================================================
+     EXPLORE CITY
+     ============================================================ */
+  var activeExploreCat = "All";
+  var visibleItems = [];
+  var currentIndex = 0;
+
+  function renderHero() {
+    var first = exploreItems[0];
+    heroEl.innerHTML = first.img
+      ? '<img src="' + first.img + '" alt="' + first.title + '"><div class="hero-caption"><h3>' + first.title + '</h3><p>' + first.desc + '</p></div>'
+      : '<div class="hero-fallback"><span>🏙️</span>' + first.title +
+        '<div style="font-size:12px;color:var(--text-dim);font-weight:400;margin-top:4px;">Add a photo by setting the img URL</div></div>' +
+        '<div class="hero-caption"><h3>' + first.title + '</h3><p>' + first.desc + '</p></div>';
+  }
+
+  function renderExploreFilters() {
+    var cats = ["All"].concat(Array.from(new Set(exploreItems.map(function (i) { return i.cat; }))));
+    exploreFilters.innerHTML = cats.map(function (c) {
+      return '<button type="button" class="chip' + (c === activeExploreCat ? ' active' : '') + '" data-cat="' + c + '">' + c + '</button>';
+    }).join("");
+    exploreFilters.querySelectorAll(".chip").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        activeExploreCat = btn.getAttribute("data-cat");
+        renderExploreFilters();
+        renderExploreGrid();
+      });
+    });
+  }
+
+  function renderExploreGrid() {
+    visibleItems = exploreItems.filter(function (i) {
+      return activeExploreCat === "All" || i.cat === activeExploreCat;
+    });
+    if (!visibleItems.length) {
+      exploreGrid.innerHTML = '<div class="empty">No photos in this category yet.</div>';
+      return;
+    }
+    exploreGrid.innerHTML = visibleItems.map(function (item, idx) {
+      return '<div class="explore-tile" data-idx="' + idx + '" role="button" tabindex="0" aria-label="Open ' + item.title + '">' +
+        (item.img ? '<img src="' + item.img + '" alt="' + item.title + '" loading="lazy">' : '<div class="tile-fallback">' + item.title + '</div>') +
+        '<span class="tile-cat">' + item.cat + '</span>' +
+        '<div class="tile-label">' + item.title + '</div>' +
+      '</div>';
+    }).join("");
+    exploreGrid.querySelectorAll(".explore-tile").forEach(function (tile) {
+      tile.addEventListener("click", function () {
+        openLightbox(parseInt(tile.getAttribute("data-idx"), 10));
+      });
+      tile.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openLightbox(parseInt(tile.getAttribute("data-idx"), 10));
+        }
+      });
+    });
+  }
+
+  function openLightbox(idx) {
+    currentIndex = idx;
+    updateLightbox();
+    lightbox.classList.add("open");
+  }
+  function closeLightbox() { lightbox.classList.remove("open"); }
+
+  function updateLightbox() {
+    var item = visibleItems[currentIndex];
+    if (!item) return;
+    document.getElementById("lbMedia").innerHTML = item.img
+      ? '<img class="lb-img" src="' + item.img + '" alt="' + item.title + '">'
+      : '<div class="lb-fallback">' + item.title + '</div>';
+    document.getElementById("lbTitle").textContent = item.title;
+    document.getElementById("lbDesc").textContent = item.desc + "  ·  " + item.cat;
+  }
+  function nextImage() {
+    if (!visibleItems.length) return;
+    currentIndex = (currentIndex + 1) % visibleItems.length;
+    updateLightbox();
+  }
+  function prevImage() {
+    if (!visibleItems.length) return;
+    currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+    updateLightbox();
+  }
+
+  document.getElementById("lbClose").addEventListener("click", closeLightbox);
+  document.getElementById("lbNext").addEventListener("click", nextImage);
+  document.getElementById("lbPrev").addEventListener("click", prevImage);
+  lightbox.addEventListener("click", function (e) { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener("keydown", function (e) {
+    if (!lightbox.classList.contains("open")) return;
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowRight") nextImage();
+    if (e.key === "ArrowLeft") prevImage();
+  });
+
+  renderHero();
+  renderExploreFilters();
+  renderExploreGrid();
+
+  /* ============================================================
+     RESPONSIVE MENU — mobile hardened
+     ============================================================ */
+  var hamburger = document.getElementById("hamburger");
+  var mobileMenu = document.getElementById("mobileMenu");
+  var menuOpen = false;
+
+  function setMenu(open) {
+    menuOpen = open;
+    if (open) {
+      mobileMenu.classList.add("open");
+      hamburger.classList.add("open");
+      hamburger.setAttribute("aria-expanded", "true");
+      hamburger.setAttribute("aria-label", "Close menu");
+      mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+    } else {
+      mobileMenu.classList.remove("open");
+      hamburger.classList.remove("open");
+      hamburger.setAttribute("aria-expanded", "false");
+      hamburger.setAttribute("aria-label", "Toggle menu");
+      mobileMenu.style.maxHeight = "0px";
+    }
+  }
+
+  /* pointerup fires once per tap on iOS/Android; fall back to click
+     if Pointer Events aren't supported */
+  if (window.PointerEvent) {
+    hamburger.addEventListener("pointerup", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      setMenu(!menuOpen);
+    });
+  } else {
+    hamburger.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      setMenu(!menuOpen);
+    });
+  }
+
+  mobileMenu.querySelectorAll("a").forEach(function (a) {
+    a.addEventListener("click", function () {
+      setTimeout(function () { setMenu(false); }, 80);
+    });
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && menuOpen) setMenu(false);
+  });
+
+  var touchStartedInside = false;
+  document.addEventListener("pointerdown", function (e) {
+    touchStartedInside = !!e.target.closest(".topbar");
+  }, true);
+
+  document.addEventListener("pointerup", function (e) {
+    if (!menuOpen) return;
+    if (touchStartedInside) return;
+    if (!e.target.closest(".topbar")) setMenu(false);
+  }, true);
+
+  window.addEventListener("resize", function () {
+    if (window.innerWidth >= 900 && menuOpen) setMenu(false);
+  });
+
+  setMenu(mobileMenu.classList.contains("open"));
+
+  /* ============================================================
+     SCROLL SPY
+     ============================================================ */
+  var navLinks = document.querySelectorAll("#desktopNav a[data-nav]");
+  var spyPairs = [];
+  navLinks.forEach(function (a) {
+    var id = a.getAttribute("href").slice(1);
+    var el = document.getElementById(id);
+    if (el) spyPairs.push({ link: a, el: el });
+  });
+
+  function updateActiveNav() {
+    var fromTop = window.scrollY + 90;
+    var current = null;
+    spyPairs.forEach(function (p) {
+      if (p.el.offsetTop <= fromTop) current = p;
+    });
+    navLinks.forEach(function (a) { a.classList.remove("active"); });
+    if (current) current.link.classList.add("active");
+  }
+  window.addEventListener("scroll", updateActiveNav, { passive: true });
+  updateActiveNav();
+
+  /* ============================================================
+     GLOBAL SEARCH — filters Places + Stores + Jobs
+     ============================================================ */
+  var searchTimer = null;
+
+  function renderJobsHTML(matched) {
+    var jobListEl = document.getElementById("jobList");
+    if (!jobListEl) return;
+    if (!matched.length) {
+      jobListEl.innerHTML = '<div class="empty">No jobs match your search.</div>';
+      return;
+    }
+    jobListEl.innerHTML = matched.map(function (j) {
+      return '<div class="job-item">' +
+        '<h3>' + j.title + '</h3>' +
+        '<p>' + j.desc + '</p>' +
+        '<p style="margin-top:4px;">📍 ' + j.place + '</p>' +
+        '<span class="tag">' + j.type + '</span>' +
+      '</div>';
+    }).join("");
+  }
+
+  function runGlobalSearch() {
+    var q = searchInput.value.trim().toLowerCase();
+
+    var matchedPlaces = places.filter(function (p) {
+      return !q ||
+        p.name.toLowerCase().indexOf(q) !== -1 ||
+        p.address.toLowerCase().indexOf(q) !== -1 ||
+        p.category.toLowerCase().indexOf(q) !== -1 ||
+        (p.note && p.note.toLowerCase().indexOf(q) !== -1);
+    });
+    grid.innerHTML = matchedPlaces.length
+      ? matchedPlaces.map(placeCardHTML).join("")
+      : '<div class="empty">No places match your search.</div>';
+
+    if (storeSearch) {
+      storeSearch.value = searchInput.value;
+      renderStores();
+    }
+
+    var matchedJobs = jobs.filter(function (j) {
+      return !q ||
+        j.title.toLowerCase().indexOf(q) !== -1 ||
+        j.place.toLowerCase().indexOf(q) !== -1 ||
+        j.desc.toLowerCase().indexOf(q) !== -1;
+    });
+    renderJobsHTML(matchedJobs);
+  }
+
+  function resetGlobalSearch() {
+    searchInput.value = "";
+    if (storeSearch) { storeSearch.value = ""; }
+    activeStoreCat = "All";
+    buildStoreCats();
+    renderStores();
+    renderPlaces();
+    renderJobsHTML(jobs);
+  }
+
+  searchInput.addEventListener("input", function () {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(runGlobalSearch, 150);
+  });
+
+  searchInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      clearTimeout(searchTimer);
+      runGlobalSearch();
+      var first = document.getElementById("places");
+      if (first) first.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+
+  searchInput.addEventListener("search", function () {
+    clearTimeout(searchTimer);
+    resetGlobalSearch();
+  });
+
+  /* ============================================================
+     CONTACT CHANNELS
+     ============================================================ */
+  var contactChannelsEl = document.getElementById("contactChannels");
+  var channelList = [
+    { icon: "✉️", label: "Email", value: CONTACT.email,
+      href: "mailto:" + CONTACT.email + "?subject=" + encodeURIComponent("Message from Sardarshahar City Guide"),
+      cls: "ch-mail" },
+    { icon: "💬", label: "WhatsApp", value: "+" + CONTACT.whatsapp,
+      href: "https://wa.me/" + CONTACT.whatsapp + "?text=" + encodeURIComponent("Hello, I found Sardarshahar City Guide and wanted to ask:"),
+      cls: "ch-wa" },
+    { icon: "📞", label: "Call", value: CONTACT.phone,
+      href: "tel:" + CONTACT.phone.replace(/\s/g, ""), cls: "" },
+    { icon: "📷", label: "Instagram", value: "@yourpage", href: CONTACT.instagram, cls: "" },
+    { icon: "👍", label: "Facebook", value: "Page", href: CONTACT.facebook, cls: "" },
+    { icon: "▶️", label: "YouTube", value: "Channel", href: CONTACT.youtube, cls: "" }
+  ];
+  contactChannelsEl.innerHTML = channelList.map(function (c) {
+    return '<a class="contact-channel ' + c.cls + '" href="' + c.href + '" target="_blank" rel="noopener">' +
+      '<div class="ch-icon">' + c.icon + '</div>' +
+      '<div class="ch-label">' + c.label + '</div>' +
+      '<div class="ch-value">' + c.value + '</div>' +
+    '</a>';
+  }).join("");
+
+  document.getElementById("contactForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var fd = new FormData(this);
+    var name = (fd.get("name") || "").trim();
+    var phone = (fd.get("phone") || "").trim();
+    var email = (fd.get("email") || "").trim();
+    var subject = (fd.get("subject") || "").trim();
+    var message = (fd.get("message") || "").trim();
+    var body = ["Name: " + name, phone ? "Phone/WhatsApp: " + phone : "", email ? "Email: " + email : "", "", message].filter(Boolean).join("\n");
+    window.location.href = "mailto:" + CONTACT.email +
+      "?subject=" + encodeURIComponent("[City Guide] " + subject) +
+      "&body=" + encodeURIComponent(body);
+    this.reset();
+  });
+
+  /* ============================================================
+     STATIC SECTIONS
+     ============================================================ */
+  document.getElementById("ttBody").innerHTML = transport.map(function (t) {
+    return "<tr><td>" + t.route + "</td><td>" + t.from + "</td><td>" + t.timing + "</td></tr>";
+  }).join("");
+
+  document.getElementById("noticeList").innerHTML = notices.map(function (n) {
+    return '<div class="notice-item">' + n.text + '<span class="date">' + n.date + '</span></div>';
+  }).join("");
+
+  renderJobsHTML(jobs);
+
+  document.getElementById("eduList").innerHTML = education.map(function (e) {
+    return '<div class="card"><span class="cat-tag">' + e.type + '</span><h3><span class="icon">🎓</span>' + e.name + '</h3><p>📌 ' + e.address + '</p><p>ℹ️ ' + e.note + '</p></div>';
+  }).join("");
+
+  document.getElementById("rentList").innerHTML = rentals.map(function (r) {
+    return '<div class="rent-item"><h3>' + r.title + '</h3><p>📍 ' + r.area + '</p><p>' + r.desc + '</p><span class="price">' + r.price + '</span></div>';
+  }).join("");
+
+  document.getElementById("dealList").innerHTML = deals.map(function (d) {
+    return '<div class="card"><span class="cat-tag">' + d.category + '</span><h3><span class="icon">🛒</span>' + d.name + '</h3><p>ℹ️ ' + d.note + '</p><p>🕒 ' + d.hours + '</p></div>';
+  }).join("");
+
+  document.getElementById("pharmList").innerHTML = pharmacies.map(function (p) {
+    return '<div class="card"><span class="cat-tag">Pharmacy</span><h3><span class="icon">💊</span>' + p.name + '</h3><p>📌 ' + p.address + '</p><p>🕒 ' + p.hours + '</p><p>ℹ️ ' + p.note + '</p></div>';
+  }).join("");
+
+  document.getElementById("lfList").innerHTML = lostFound.map(function (l) {
+    return '<div class="lf-item"><div class="lf-icon">' + (l.type === "lost" ? "❌" : "✅") + '</div><div><h3>' + l.title + '</h3><p>' + l.desc + '</p><span class="tag ' + (l.type === "lost" ? "tag-lost" : "tag-found") + '">' + (l.type === "lost" ? "LOST" : "FOUND") + ' · ' + l.date + '</span></div></div>';
+  }).join("");
+
+  document.getElementById("eventList").innerHTML = events.map(function (e) {
+    return '<div class="event-item"><div class="event-date"><div class="day">' + e.day + '</div><div class="month">' + e.month + '</div></div><div><h3>' + e.title + '</h3><p>' + e.desc + '</p></div></div>';
+  }).join("");
+
+  document.getElementById("quickLinks").innerHTML = quickLinks.map(function (q) {
+    return '<a href="' + q.url + '" target="_blank" rel="noopener">' + q.label + '</a>';
+  }).join("");
+
+  /* ============================================================
+     ADD A PLACE FORM
+     ============================================================ */
+  document.getElementById("submitForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var fd = new FormData(this);
+    var newPlace = {
+      name: fd.get("name"),
+      category: fd.get("category"),
+      address: fd.get("address"),
+      phone: fd.get("phone") || "",
+      hours: fd.get("hours") || "",
+      note: fd.get("note") || ""
+    };
+    places.push(newPlace);
+    if (categories.indexOf(newPlace.category) === -1) categories.push(newPlace.category);
+    activeCat = "All";
+    buildCategoryChips();
+    renderPlaces();
+    this.reset();
+    alert("Place submitted! (For demo it's saved in this browser session only.)");
+  });
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+})();
+</script>
+
+</body>
+</html>
